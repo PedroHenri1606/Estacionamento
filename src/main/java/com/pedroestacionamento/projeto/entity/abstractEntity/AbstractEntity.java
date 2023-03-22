@@ -9,8 +9,9 @@ import java.time.LocalDateTime;
 @MappedSuperclass
 public abstract class AbstractEntity {
 
+    @Id
     @Getter
-    @GeneratedValue(strategy = GenerationType.AUTO) @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id",nullable = false,unique = true )
     public Long id;
 
@@ -26,9 +27,13 @@ public abstract class AbstractEntity {
     @Column(name = "ativo", nullable = false)
     private Boolean ativo;
 
+    @PrePersist
+    private void prePersist(){
+        this.cadastro = LocalDateTime.now();
+    }
 
     @PrePersist
-    private void preAdicao(){
+    private void preUpdate(){
         this.edicao = LocalDateTime.now();
         this.ativo = true;
     }

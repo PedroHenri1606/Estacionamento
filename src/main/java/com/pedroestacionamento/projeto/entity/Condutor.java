@@ -5,12 +5,14 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalTime;
 
 @Entity
 @Table(name = "condutores", schema = "public")
+@NoArgsConstructor
 public class Condutor extends AbstractEntity {
 
     @Getter @Setter
@@ -32,9 +34,6 @@ public class Condutor extends AbstractEntity {
     @Getter @Setter
     @Column(name = "tempo_desconto", nullable = false)
     private LocalTime tempoDesconto;
-
-    public Condutor() {
-    }
 
     public Condutor(String nome, String cpf, String telefone, LocalTime tempoPago, LocalTime tempoDesconto) {
         this.nome = nome;

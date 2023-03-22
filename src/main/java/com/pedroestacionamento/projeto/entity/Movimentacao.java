@@ -4,6 +4,7 @@ import com.pedroestacionamento.projeto.entity.abstractEntity.AbstractEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -11,6 +12,7 @@ import java.time.LocalTime;
 
 @Entity
 @Table(name = "movimentacoes", schema = "public")
+@NoArgsConstructor
 public class Movimentacao extends AbstractEntity {
 
     @Column(name = "veiculo", nullable = false, unique = true)
@@ -48,9 +50,6 @@ public class Movimentacao extends AbstractEntity {
 
     @Column(name = "valor_hora_multa")
     private BigDecimal valorHoraMulta;
-
-    public Movimentacao() {
-    }
 
     public Movimentacao(Veiculo veiculo, Condutor condutor, LocalDateTime entrada, LocalDateTime saida, LocalTime tempo, LocalTime tempoDesconto, LocalTime tempoMulta, BigDecimal valorDesconto, BigDecimal valorMulta, BigDecimal valorTotal, BigDecimal valorHora, BigDecimal valorHoraMulta) {
         this.veiculo = veiculo;

@@ -6,6 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Table;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
@@ -13,6 +14,7 @@ import java.time.LocalTime;
 
 @Entity
 @Table(name = "configuracoes", schema = "public")
+@NoArgsConstructor
 public class Configuracao extends AbstractEntity {
 
     @Getter @Setter
@@ -54,9 +56,6 @@ public class Configuracao extends AbstractEntity {
     @Getter @Setter
     @Column(name = "vagas_van")
     private Integer vagasVan;
-
-    public Configuracao() {
-    }
 
     public Configuracao(BigDecimal valorHora, BigDecimal valorMinutoMulta, LocalTime inicioExpediente, LocalTime fimExpediente, LocalTime tempoParaDesconto, LocalTime tempoDeDesconto, Boolean gerarDesconto, Integer vagasMoto, Integer vagasCarro, Integer vagasVan) {
         this.valorHora = valorHora;
