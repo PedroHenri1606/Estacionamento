@@ -1,8 +1,9 @@
 package com.pedroestacionamento.projeto.entity;
 
-import com.pedroestacionamento.projeto.abstractEntity.AbstractEntity;
+import com.pedroestacionamento.projeto.entity.abstractEntity.AbstractEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;

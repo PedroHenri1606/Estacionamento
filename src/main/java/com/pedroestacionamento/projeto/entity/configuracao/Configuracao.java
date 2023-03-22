@@ -1,6 +1,6 @@
-package com.pedroestacionamento.projeto.configuracao;
+package com.pedroestacionamento.projeto.entity.configuracao;
 
-import com.pedroestacionamento.projeto.abstractEntity.AbstractEntity;
+import com.pedroestacionamento.projeto.entity.abstractEntity.AbstractEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

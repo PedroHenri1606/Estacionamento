@@ -1,6 +1,6 @@
 package com.pedroestacionamento.projeto.entity;
 
-import com.pedroestacionamento.projeto.abstractEntity.AbstractEntity;
+import com.pedroestacionamento.projeto.entity.abstractEntity.AbstractEntity;
 import com.pedroestacionamento.projeto.entity.enums.Cor;
 import com.pedroestacionamento.projeto.entity.enums.TipoVeiculo;
 import jakarta.persistence.*;
@@ -13,6 +13,7 @@ public class Veiculo extends AbstractEntity {
 
     @Column(name = "placa", length = 10, nullable = false,unique = true)
     private String placa;
+
 
     @Column(name = "modelo", length = 50, nullable = false)
     private Modelo modelo;
