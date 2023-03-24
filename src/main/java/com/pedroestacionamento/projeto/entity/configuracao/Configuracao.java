@@ -3,19 +3,15 @@ package com.pedroestacionamento.projeto.entity.configuracao;
 import com.pedroestacionamento.projeto.entity.abstractEntity.AbstractEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Table;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import java.math.BigDecimal;
 import java.time.LocalTime;
 
 @Entity
 @Table(name = "configuracoes", schema = "public")
-@NoArgsConstructor
-public class Configuracao extends AbstractEntity {
+public class Configuracao extends AbstractEntity  {
 
     @Getter @Setter
     @Column(name = "valor_hora")
@@ -57,16 +53,6 @@ public class Configuracao extends AbstractEntity {
     @Column(name = "vagas_van")
     private Integer vagasVan;
 
-    public Configuracao(BigDecimal valorHora, BigDecimal valorMinutoMulta, LocalTime inicioExpediente, LocalTime fimExpediente, LocalTime tempoParaDesconto, LocalTime tempoDeDesconto, Boolean gerarDesconto, Integer vagasMoto, Integer vagasCarro, Integer vagasVan) {
-        this.valorHora = valorHora;
-        this.valorMinutoMulta = valorMinutoMulta;
-        this.inicioExpediente = inicioExpediente;
-        this.fimExpediente = fimExpediente;
-        this.tempoParaDesconto = tempoParaDesconto;
-        this.tempoDeDesconto = tempoDeDesconto;
-        this.gerarDesconto = gerarDesconto;
-        this.vagasMoto = vagasMoto;
-        this.vagasCarro = vagasCarro;
-        this.vagasVan = vagasVan;
+    public Configuracao() {
     }
 }

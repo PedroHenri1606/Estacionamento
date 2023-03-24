@@ -1,24 +1,27 @@
 package com.pedroestacionamento.projeto.entity;
 
 import com.pedroestacionamento.projeto.entity.abstractEntity.AbstractEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Entity
-@Table(name = "movimentacoes", schema = "public")
-@NoArgsConstructor
-public class Movimentacao extends AbstractEntity {
+@Table(name = "movimentacoes")
+public class Movimentacao extends AbstractEntity{
 
-    @Column(name = "veiculo", nullable = false, unique = true)
+    @ManyToOne
+    @JoinColumn(name = "veiculos_id", unique = true)
+    @NotNull
     private Veiculo veiculo;
 
-    @Column(name = "condutor", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "movimentacoes_id")
+    @NotNull
     private Condutor condutor;
 
     @Column(name = "entrada", nullable = false)
@@ -51,19 +54,5 @@ public class Movimentacao extends AbstractEntity {
     @Column(name = "valor_hora_multa")
     private BigDecimal valorHoraMulta;
 
-    public Movimentacao(Veiculo veiculo, Condutor condutor, LocalDateTime entrada, LocalDateTime saida, LocalTime tempo, LocalTime tempoDesconto, LocalTime tempoMulta, BigDecimal valorDesconto, BigDecimal valorMulta, BigDecimal valorTotal, BigDecimal valorHora, BigDecimal valorHoraMulta) {
-        this.veiculo = veiculo;
-        this.condutor = condutor;
-        this.entrada = entrada;
-        this.saida = saida;
-        this.tempo = tempo;
-        this.tempoDesconto = tempoDesconto;
-        this.tempoMulta = tempoMulta;
-        this.valorDesconto = valorDesconto;
-        this.valorMulta = valorMulta;
-        this.valorTotal = valorTotal;
-        this.valorHora = valorHora;
-        this.valorHoraMulta = valorHoraMulta;
-    }
-
+    public Movimentacao() {}
 }

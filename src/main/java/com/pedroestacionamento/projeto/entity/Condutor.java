@@ -3,43 +3,48 @@ package com.pedroestacionamento.projeto.entity;
 import com.pedroestacionamento.projeto.entity.abstractEntity.AbstractEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalTime;
+import java.util.List;
 
 @Entity
-@Table(name = "condutores", schema = "public")
-@NoArgsConstructor
+@Table(name = "condutores")
 public class Condutor extends AbstractEntity {
 
     @Getter @Setter
-    @Column(name = "nome", nullable = false, length = 50)
+    @NotNull
+    @Column(name = "nome", length = 50)
     private String nome;
 
     @Getter @Setter
-    @Column(name = "cpf", nullable = false, unique = true, length = 15)
+    @NotNull
+    @Column(name = "cpf", unique = true, length = 15)
     private String cpf;
 
     @Getter @Setter
-    @Column(name = "telefone", nullable = false, length = 17)
+    @NotNull
+    @Column(name = "telefone", length = 17)
     private String telefone;
 
     @Getter @Setter
-    @Column(name = "tempo_gasto", nullable = false)
+    @NotNull
+    @Column(name = "tempo_gasto")
     private LocalTime tempoPago;
 
     @Getter @Setter
-    @Column(name = "tempo_desconto", nullable = false)
+    @NotNull
+    @Column(name = "tempo_desconto")
     private LocalTime tempoDesconto;
 
-    public Condutor(String nome, String cpf, String telefone, LocalTime tempoPago, LocalTime tempoDesconto) {
-        this.nome = nome;
-        this.cpf = cpf;
-        this.telefone = telefone;
-        this.tempoPago = tempoPago;
-        this.tempoDesconto = tempoDesconto;
+    @Getter
+    @OneToMany(mappedBy = "condutor")
+    private List<Movimentacao> movimentacoes;
+
+    public Condutor() {
     }
 }

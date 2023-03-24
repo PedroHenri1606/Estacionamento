@@ -3,23 +3,29 @@ package com.pedroestacionamento.projeto.entity;
 import com.pedroestacionamento.projeto.entity.abstractEntity.AbstractEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.PrimaryKeyJoinColumn;
+
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.HashSet;
+import java.util.Set;
+
+
 @Entity
-@Table(name = "marca", schema = "public")
-@NoArgsConstructor
+@Table(name = "marca")
 public class Marca extends AbstractEntity {
 
     @Getter @Setter
-    @Column(name = "nome",nullable = false,unique = true, length = 50)
+    @NotNull
+    @Column(name = "nome",unique = true, length = 50)
     private String nome;
 
-    public Marca(String nome) {
-        this.nome = nome;
-    }
+    @Getter
+    @OneToMany(mappedBy = "marca")
+    private Set<Modelo> modelos;
 
-  }
+    public Marca() {}
+}

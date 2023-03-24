@@ -2,22 +2,27 @@ package com.pedroestacionamento.projeto.entity;
 
 import com.pedroestacionamento.projeto.entity.abstractEntity.AbstractEntity;
 import jakarta.persistence.*;
-import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
+
+import java.io.Serializable;
+import java.util.List;
 
 @Entity
-@Table(name = "modelos", schema = "public")
-@NoArgsConstructor
-public class Modelo extends AbstractEntity {
+@Table(name = "modelos")
+public class Modelo extends AbstractEntity  {
 
     @Column(name = "nome", nullable = false, unique = true, length = 50)
     private String nome;
 
-    @Column(name = "marca", nullable = false)
+    @ManyToOne
+    @NotNull
+    @JoinColumn(name = "marca_id")
     private Marca marca;
 
-    public Modelo(String nome, Marca marca) {
-        this.nome = nome;
-        this.marca = marca;
-    }
+    @Getter
+    @OneToMany(mappedBy = "modelo")
+    private List<Veiculo> veiculos;
 
+    public Modelo() {}
 }
