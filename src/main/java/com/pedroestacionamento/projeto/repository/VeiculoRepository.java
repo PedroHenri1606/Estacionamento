@@ -1,4 +1,4 @@
-package com.pedroestacionamento.projeto.repositories;
+package com.pedroestacionamento.projeto.repository;
 
 import com.pedroestacionamento.projeto.entity.Veiculo;
 import org.springframework.data.jpa.repository.JpaRepository;

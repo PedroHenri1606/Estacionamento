@@ -1,9 +1,7 @@
-package com.pedroestacionamento.projeto.repositories;
+package com.pedroestacionamento.projeto.repository;
 
 import com.pedroestacionamento.projeto.entity.Condutor;
 import org.springframework.data.jpa.repository.JpaRepository;
-
-import java.math.BigDecimal;
 
 public interface CondutorRepository extends JpaRepository<Condutor, Long> {
 
