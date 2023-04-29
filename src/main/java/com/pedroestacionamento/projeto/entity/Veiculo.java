@@ -4,19 +4,28 @@ import com.pedroestacionamento.projeto.entity.abstractEntity.AbstractEntity;
 import com.pedroestacionamento.projeto.entity.enums.Cor;
 import com.pedroestacionamento.projeto.entity.enums.TipoVeiculo;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.envers.AuditTable;
+import org.hibernate.envers.Audited;
 
 @Entity
-@Table(name = "veiculos", schema = "public")
+@Table(name = "tb_veiculo", schema = "public")
 @NoArgsConstructor
+@AllArgsConstructor
+@Audited
+@AuditTable(value = "veiculo_audit", schema = "audit")
 public class Veiculo extends AbstractEntity {
 
+    @Getter @Setter
     @Column(name = "placa", length = 10, nullable = false,unique = true)
     private String placa;
 
-    @Column(name = "modelo", length = 50, nullable = false)
+    @ManyToOne
+    @Getter @Setter
+    @JoinColumn(name = "modelo_id", nullable = false)
     private Modelo modelo;
 
     @Enumerated(EnumType.STRING)
@@ -29,15 +38,9 @@ public class Veiculo extends AbstractEntity {
     @Column(name = "tipo_veiculo", length = 20, nullable = false)
     private TipoVeiculo tipoVeiculo;
 
+    @Getter @Setter
     @Column(name = "ano", nullable = false)
     private int ano;
 
-    public Veiculo(String placa, Modelo modelo, Cor cor, TipoVeiculo tipoVeiculo, int ano) {
-        this.placa = placa;
-        this.modelo = modelo;
-        this.cor = cor;
-        this.tipoVeiculo = tipoVeiculo;
-        this.ano = ano;
-    }
 
 }
