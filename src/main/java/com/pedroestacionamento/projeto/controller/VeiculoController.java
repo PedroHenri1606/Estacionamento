@@ -11,6 +11,33 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "/api/veiculo")
 public class VeiculoController {
 
+     /*
+        {
+        "id": 1,
+        "cadastro": "2023-05-01T22:40:13.418645",
+        "edicao": null,
+        "ativo": true,
+        "placa": "RHT-5F18",
+        "modelo": {
+            "id": 1,
+            "cadastro": "2023-05-01T22:38:24.311867",
+            "edicao": null,
+            "ativo": true,
+            "nome": "XRE 300",
+            "marca": {
+                "id": 1,
+                "cadastro": "2023-05-01T22:35:11.143788",
+                "edicao": null,
+                "ativo": true,
+                "nome": "Honda"
+                    }
+            },
+        "cor": "VERMELHA",
+        "tipoVeiculo": "Moto",
+        "ano": 2023
+        }
+     */
+
     @Autowired
     private VeiculoService service;
 
@@ -28,7 +55,7 @@ public class VeiculoController {
             return ResponseEntity.ok(service.listarVeiculos());
 
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Error ao listar Veiculos");
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
@@ -38,7 +65,7 @@ public class VeiculoController {
             return ResponseEntity.ok(service.listarVeiculoPorAtivo());
 
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Error ao listar Veiculos ativos");
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
@@ -49,9 +76,10 @@ public class VeiculoController {
             return ResponseEntity.ok("Registro cadastrado com Sucesso");
 
         } catch (Exception e){
-            return ResponseEntity.badRequest().body("Error ao Cadastrar Veiculo");
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
     @PutMapping(value = "/{id}")
         private ResponseEntity<?> editar(
                 @PathVariable("id") final Long id,
@@ -61,9 +89,31 @@ public class VeiculoController {
             return ResponseEntity.ok("Registro cadastrado com Sucesso");
         }
         catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 
-            return ResponseEntity.badRequest().body("Error ao atualizar Veiculo");
+    @PutMapping(value = "/desativar/{id}")
+    private ResponseEntity<?> desativar(
+            @PathVariable("id") final Long id){
+        try{
+            service.desativar(id);
+            return ResponseEntity.ok("Registro desativado com sucesso!");
 
+        } catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PutMapping(value = "/ativar/{id}")
+    private ResponseEntity<?> ativar(
+            @PathVariable("id") final Long id){
+        try{
+            service.ativar(id);
+            return ResponseEntity.ok("Registro desativado com sucesso!");
+
+        } catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
@@ -76,7 +126,7 @@ public class VeiculoController {
             return ResponseEntity.ok("Registro deletado com Sucesso");
 
         }catch (Exception e){
-            return ResponseEntity.badRequest().body("Error ao Deletar Veiculo");
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 }

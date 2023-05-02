@@ -28,26 +28,29 @@ public class ModeloService {
         return  repository.save(modelo);
     }
 
+    public void desativar(Long id){
+        repository.desativar(id);
+    }
+
+    public void ativar(Long id){
+        repository.ativar(id);
+    }
+
     public Modelo editar(Long id, Modelo modeloNovo){
         try{
             final Modelo modeloBanco = repository.findById(id).orElse(null);
             if(modeloBanco == null || modeloBanco.getId().equals(modeloNovo.getId())){
                 throw new RuntimeException("Não foi possivel indentificar o registro informado");
             }
-            editarItens(modeloBanco,modeloNovo);
+
+            modeloBanco.setNome(modeloNovo.getNome());
+            modeloBanco.setMarca(modeloNovo.getMarca());
+
             return repository.save(modeloBanco);
 
         } catch (EntityNotFoundException e){
             throw new RuntimeException(e);
         }
-    }
-
-    public void editarItens(Modelo modeloAntigo,Modelo modeloNovo){
-        modeloAntigo.setCadastro(modeloNovo.getCadastro());
-        modeloAntigo.setEdicao(modeloNovo.getEdicao());
-        modeloAntigo.setAtivo(modeloNovo.getAtivo());
-        modeloAntigo.setNome(modeloNovo.getNome());
-        modeloAntigo.setMarca(modeloNovo.getMarca());
     }
 
     public void deletar(Long id, Modelo modelo){
@@ -59,7 +62,7 @@ public class ModeloService {
             if(!modeloBanco.getAtivo()) {
                 repository.deleteById(id);
             } else {
-                modeloBanco.setAtivo(false);
+                this.desativar(modeloBanco.getId());
                 repository.save(modeloBanco);
             }
         } catch (EntityNotFoundException e){

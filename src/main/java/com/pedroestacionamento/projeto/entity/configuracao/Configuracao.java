@@ -3,7 +3,6 @@ package com.pedroestacionamento.projeto.entity.configuracao;
 import com.pedroestacionamento.projeto.entity.abstractEntity.AbstractEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,7 +12,7 @@ import java.math.BigDecimal;
 import java.time.LocalTime;
 
 @Entity
-@Table(name = "configuracoes", schema = "public")
+@Table(name = "tb_configuracao", schema = "public")
 @NoArgsConstructor
 public class Configuracao extends AbstractEntity {
 

@@ -11,58 +11,92 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "/api/marca")
 public class MarcaController {
 
+     /*
+        {
+        "id": 1,
+        "cadastro": "2023-05-01T22:35:11.143788",
+        "edicao": null,
+        "ativo": true,
+        "nome": "Honda"
+        }
+     */
+
     @Autowired
     private MarcaService service;
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> buscarPorId(@PathVariable("id") final Long id){
+    public ResponseEntity<?> buscarPorId(@PathVariable("id") final Long id) {
         final Marca marca = service.buscarMarcaPorId(id);
         return marca == null
-                ?ResponseEntity.badRequest().body("Nennhuma Marca Encontrado")
-                :ResponseEntity.ok(marca);
+                ? ResponseEntity.badRequest().body("Nennhuma Marca Encontrado")
+                : ResponseEntity.ok(marca);
     }
 
     @GetMapping("/listar")
     public ResponseEntity<?> buscarTodos() {
-        try{
+        try {
             return ResponseEntity.ok(service.listarMarca());
 
-        } catch (Exception e){
-            return ResponseEntity.badRequest().body("Error ao listar Marcas");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
     @GetMapping("/listarPorAtivo")
-    public ResponseEntity<?> buscarPorAtivo(){
-        try{
+    public ResponseEntity<?> buscarPorAtivo() {
+        try {
             return ResponseEntity.ok(service.listarPorAtivo());
 
-        } catch (Exception e){
-            return ResponseEntity.badRequest().body("Error ao listar Marcas somente por ativos");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
     @PostMapping
-    public ResponseEntity<?> cadastrar(@RequestBody final Marca marca){
+    public ResponseEntity<?> cadastrar(@RequestBody final Marca marca) {
         try {
             service.salvar(marca);
             return ResponseEntity.ok("Registro cadastrado com Sucesso");
 
-        } catch (Exception e){
-            return ResponseEntity.badRequest().body("Error ao cadastrar Marca");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
     @PutMapping(value = "/{id}")
-        private ResponseEntity<?> editar(
-                @PathVariable("id") final Long id,
-                @RequestBody final Marca marca){
-        try{
-            service.editar(id,marca);
+    private ResponseEntity<?> editar(
+            @PathVariable("id") final Long id,
+            @RequestBody final Marca marca) {
+        try {
+            service.editar(id, marca);
             return ResponseEntity.ok("Registro atualizado com Sucesso");
 
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PutMapping(value = "/desativar/{id}")
+    private ResponseEntity<?> desativar(
+            @PathVariable("id") final Long id) {
+        try {
+            service.desativar(id);
+            return ResponseEntity.ok("Registro desativado com sucesso!");
+
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PutMapping(value = "/ativar/{id}")
+    private ResponseEntity<?> ativar(
+            @PathVariable("id") final Long id){
+        try{
+            service.ativar(id);
+            return ResponseEntity.ok("Registro ativado com sucesso!");
+
         } catch (Exception e){
-            return ResponseEntity.badRequest().body("Error ao atualizar Marca");
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
@@ -75,7 +109,7 @@ public class MarcaController {
             return ResponseEntity.ok("Registro deletado com Sucesso");
 
         } catch (Exception e){
-            return ResponseEntity.badRequest().body("Erro ao deletar");
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 }

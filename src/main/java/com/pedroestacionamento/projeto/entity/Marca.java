@@ -14,7 +14,7 @@ import org.hibernate.envers.Audited;
 @NoArgsConstructor
 @AllArgsConstructor
 @Audited
-@AuditTable(value = "marca_audit", schema = "audit")
+@AuditTable(value = "tb_marca_audit", schema = "audit")
 public class Marca extends AbstractEntity {
 
     @Getter @Setter

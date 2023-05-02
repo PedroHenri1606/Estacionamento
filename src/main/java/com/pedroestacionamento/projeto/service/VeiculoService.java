@@ -29,29 +29,28 @@ public class VeiculoService {
 
     public Veiculo salvar(Veiculo veiculo) { return  repository.save(veiculo);}
 
+    public void desativar(Long id){repository.desativar(id);}
+
+    public void ativar(Long id){repository.ativar(id);}
+
     public Veiculo editar(Long id, Veiculo veiculoNovo){
         try{
             final Veiculo veiculoBanco = repository.findById(id).orElse(null);
             if(veiculoBanco == null || veiculoBanco.getId().equals(veiculoNovo.getId())){
                 throw new RuntimeException("Não foi possivel indentificar o registro informado");
             }
-            editarItens(veiculoBanco,veiculoNovo);
+
+            veiculoBanco.setModelo(veiculoNovo.getModelo());
+            veiculoBanco.setCor(veiculoNovo.getCor());
+            veiculoBanco.setTipoVeiculo(veiculoNovo.getTipoVeiculo());
+            veiculoBanco.setAno(veiculoNovo.getAno());
+            veiculoBanco.setPlaca(veiculoNovo.getPlaca());
+
             return repository.save(veiculoBanco);
 
         } catch (EntityNotFoundException e){
             throw new EntityNotFoundException(e);
         }
-    }
-
-    public void editarItens(Veiculo veiculoNovo,Veiculo veiculoAntigo){
-        veiculoAntigo.setCadastro(veiculoNovo.getCadastro());
-        veiculoAntigo.setEdicao(veiculoNovo.getEdicao());
-        veiculoAntigo.setAtivo(veiculoNovo.getAtivo());
-        veiculoAntigo.setModelo(veiculoNovo.getModelo());
-        veiculoAntigo.setCor(veiculoNovo.getCor());
-        veiculoAntigo.setTipoVeiculo(veiculoNovo.getTipoVeiculo());
-        veiculoAntigo.setAno(veiculoNovo.getAno());
-        veiculoAntigo.setPlaca(veiculoNovo.getPlaca());
     }
 
     public void deletar(Long id, Veiculo veiculo){
@@ -63,7 +62,7 @@ public class VeiculoService {
             if(!veiculoBanco.getAtivo()) {
                 repository.deleteById(id);
             } else {
-                veiculoBanco.setAtivo(false);
+                this.desativar(veiculoBanco.getId());
                 repository.save(veiculoBanco);
             }
         } catch (EntityNotFoundException e){

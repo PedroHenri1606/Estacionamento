@@ -18,7 +18,7 @@ import java.time.LocalTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Audited
-@AuditTable(value = "movimentacao_audit", schema = "audit")
+@AuditTable(value = "tb_movimentacao_audit", schema = "audit")
 public class Movimentacao extends AbstractEntity {
 
     @ManyToOne

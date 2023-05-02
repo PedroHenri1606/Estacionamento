@@ -30,36 +30,34 @@ public class MovimentacaoService {
         return repository.save(movimentacao);
     }
 
+    public void desativar(Long id){
+        repository.desativar(id);
+    }
+
     public Movimentacao editar(Long id, Movimentacao movimentacaoNova){
         try{
             final Movimentacao movimentacaoBanco = repository.findById(id).orElse(null);
             if(movimentacaoBanco == null || movimentacaoBanco.getId().equals(movimentacaoNova.getId())){
                 throw new RuntimeException("Não foi possivel indentificar o registro informado");
             }
-            editarItens(movimentacaoBanco,movimentacaoNova);
+
+            movimentacaoBanco.setEntrada(movimentacaoNova.getEntrada());
+            movimentacaoBanco.setSaida(movimentacaoNova.getSaida());
+            movimentacaoBanco.setTempo(movimentacaoNova.getTempoDesconto());
+            movimentacaoBanco.setTempoDesconto(movimentacaoNova.getTempoDesconto());
+            movimentacaoBanco.setTempoMulta(movimentacaoNova.getTempoMulta());
+            movimentacaoBanco.setValorDesconto(movimentacaoNova.getValorDesconto());
+            movimentacaoBanco.setValorHora(movimentacaoNova.getValorHoraMulta());
+            movimentacaoBanco.setValorHoraMulta(movimentacaoNova.getValorMulta());
+            movimentacaoBanco.setValorTotal(movimentacaoNova.getValorTotal());
+            movimentacaoBanco.setCondutor(movimentacaoNova.getCondutor());
+            movimentacaoBanco.setVeiculo(movimentacaoNova.getVeiculo());
+
             return repository.save(movimentacaoBanco);
 
         } catch (EntityNotFoundException e){
             throw new EntityNotFoundException(e);
         }
-    }
-
-    public void editarItens(Movimentacao movimentacaoAntiga, Movimentacao movimentacaoNova){
-
-        movimentacaoAntiga.setAtivo(movimentacaoNova.getAtivo());
-        movimentacaoAntiga.setCadastro(movimentacaoAntiga.getCadastro());
-        movimentacaoAntiga.setEdicao(movimentacaoAntiga.getEdicao());
-        movimentacaoAntiga.setEntrada(movimentacaoAntiga.getEntrada());
-        movimentacaoAntiga.setSaida(movimentacaoAntiga.getSaida());
-        movimentacaoAntiga.setTempo(movimentacaoAntiga.getTempoDesconto());
-        movimentacaoAntiga.setTempoDesconto(movimentacaoAntiga.getTempoDesconto());
-        movimentacaoAntiga.setTempoMulta(movimentacaoAntiga.getTempoMulta());
-        movimentacaoAntiga.setValorDesconto(movimentacaoAntiga.getValorDesconto());
-        movimentacaoAntiga.setValorHora(movimentacaoAntiga.getValorHoraMulta());
-        movimentacaoAntiga.setValorHoraMulta(movimentacaoAntiga.getValorMulta());
-        movimentacaoAntiga.setValorTotal(movimentacaoAntiga.getValorTotal());
-        movimentacaoAntiga.setCondutor(movimentacaoAntiga.getCondutor());
-        movimentacaoAntiga.setVeiculo(movimentacaoAntiga.getVeiculo());
     }
 
     public Movimentacao desativarMovimentacao(Long id,Movimentacao movimentacao){
@@ -68,7 +66,7 @@ public class MovimentacaoService {
             if(movimentacaoBanco == null || movimentacaoBanco.getId().equals(movimentacao.getId())){
                 throw new RuntimeException("Não foi possivel indentificar o registro informado");
             }
-            movimentacaoBanco.setAtivo(false);
+            this.desativar(movimentacaoBanco.getId());
             return repository.save(movimentacaoBanco);
 
         } catch (EntityNotFoundException e){

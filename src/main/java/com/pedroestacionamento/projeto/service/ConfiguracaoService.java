@@ -18,8 +18,10 @@ public class ConfiguracaoService {
         return repository.findAll();
     }
 
-    public Configuracao salvar(Configuracao configuracao){
+    public Configuracao salvar(Configuracao configuracao) {
+        configuracao.setAtivo(true);
         return repository.save(configuracao);
+
     }
 
     public Configuracao editar(Long id, Configuracao configuracaoNova){
@@ -28,28 +30,22 @@ public class ConfiguracaoService {
             if(configuracaoBanco == null || configuracaoBanco.getId().equals(configuracaoNova.getId())){
                 throw new RuntimeException("Não foi possivel indentificar o registro informado");
             }
-            editarItens(configuracaoBanco,configuracaoNova);
+
+            configuracaoBanco.setValorHora(configuracaoNova.getValorHora());
+            configuracaoBanco.setValorMinutoMulta(configuracaoNova.getValorMinutoMulta());
+            configuracaoBanco.setInicioExpediente(configuracaoNova.getInicioExpediente());
+            configuracaoBanco.setFimExpediente(configuracaoNova.getFimExpediente());
+            configuracaoBanco.setTempoParaDesconto(configuracaoNova.getTempoParaDesconto());
+            configuracaoBanco.setTempoDeDesconto(configuracaoNova.getTempoDeDesconto());
+            configuracaoBanco.setGerarDesconto(configuracaoNova.getGerarDesconto());
+            configuracaoBanco.setVagasMoto(configuracaoNova.getVagasMoto());
+            configuracaoBanco.setVagasCarro(configuracaoNova.getVagasCarro());
+            configuracaoBanco.setVagasVan(configuracaoNova.getVagasVan());
+
             return repository.save(configuracaoBanco);
 
         } catch (EntityNotFoundException e){
             throw new EntityNotFoundException(e);
         }
-    }
-
-    public void editarItens(Configuracao configuracao, Configuracao nova){
-        configuracao.setCadastro(nova.getCadastro());
-        configuracao.setEdicao(nova.getEdicao());
-        configuracao.setAtivo(nova.getAtivo());
-        configuracao.setValorHora(nova.getValorHora());
-        configuracao.setValorMinutoMulta(nova.getValorMinutoMulta());
-        configuracao.setInicioExpediente(nova.getInicioExpediente());
-        configuracao.setFimExpediente(nova.getFimExpediente());
-        configuracao.setTempoParaDesconto(nova.getTempoParaDesconto());
-        configuracao.setTempoDeDesconto(nova.getTempoDeDesconto());
-        configuracao.setGerarDesconto(nova.getGerarDesconto());
-        configuracao.setVagasMoto(nova.getVagasMoto());
-        configuracao.setVagasCarro(nova.getVagasCarro());
-        configuracao.setVagasVan(nova.getVagasVan());
-
     }
 }

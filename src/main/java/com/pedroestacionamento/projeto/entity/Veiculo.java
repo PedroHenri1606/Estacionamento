@@ -16,7 +16,7 @@ import org.hibernate.envers.Audited;
 @NoArgsConstructor
 @AllArgsConstructor
 @Audited
-@AuditTable(value = "veiculo_audit", schema = "audit")
+@AuditTable(value = "tb_veiculo_audit", schema = "audit")
 public class Veiculo extends AbstractEntity {
 
     @Getter @Setter

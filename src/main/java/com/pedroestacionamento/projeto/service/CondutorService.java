@@ -26,34 +26,33 @@ public class CondutorService {
         return repository.listarPorAtivo();
     }
 
-    public Condutor salvar(Condutor condutor){
-        return repository.save(condutor);
+    public Condutor salvar(Condutor condutor){ return repository.save(condutor); }
+
+    public void desativar(Long id){
+        repository.desativar(id);
+    }
+
+    public void ativar(Long id){
+        repository.ativar(id);
     }
 
     public Condutor editar(Long id, Condutor condutorNovo){
         try{
            final Condutor entidadeBanco = repository.findById(id).orElse(null);
-                        if(entidadeBanco == null || entidadeBanco.getId().equals(condutorNovo.getId())){
+           if(entidadeBanco == null || entidadeBanco.getId().equals(condutorNovo.getId())){
                 throw new RuntimeException("Não foi possivel indentifcar o registro informado");
             }
+            entidadeBanco.setNome(condutorNovo.getNome());
+            entidadeBanco.setCpf(condutorNovo.getCpf());
+            entidadeBanco.setTelefone(condutorNovo.getTelefone());
+            entidadeBanco.setTempoPago(condutorNovo.getTempoPago());
+            entidadeBanco.setTempoDesconto(condutorNovo.getTempoDesconto());
 
-            editarItens(entidadeBanco,condutorNovo);
             return repository.save(entidadeBanco);
 
         } catch (EntityNotFoundException e){
             throw new EntityNotFoundException(e);
         }
-    }
-
-    public void editarItens(Condutor condutor, Condutor entidade){
-        condutor.setCadastro(entidade.getCadastro());
-        condutor.setEdicao(entidade.getEdicao());
-        condutor.setAtivo(entidade.getAtivo());
-        condutor.setNome(entidade.getNome());
-        condutor.setCpf(entidade.getCpf());
-        condutor.setTelefone(entidade.getTelefone());
-        condutor.setTempoPago(entidade.getTempoPago());
-        condutor.setTempoDesconto(entidade.getTempoDesconto());
     }
 
     public void deletar(Long id, Condutor condutor){
@@ -65,7 +64,7 @@ public class CondutorService {
             if(!condutorBanco.getAtivo()) {
                 repository.deleteById(id);
             } else {
-                condutorBanco.setAtivo(false);
+                this.desativar(condutorBanco.getId());
                 repository.save(condutorBanco);
             }
 

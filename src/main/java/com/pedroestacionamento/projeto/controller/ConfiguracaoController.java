@@ -11,6 +11,22 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "/api/configuracao")
 public class ConfiguracaoController {
 
+     /*
+        {
+        "ativo" : true,
+        "valorHora": 40.00,
+        "valorMinutoMulta": 0.80,
+        "inicioExpediente": "08:00:00",
+        "fimExpediente": "18:00:00",
+        "tempoParaDesconto": "00:00:00",
+        "tempoDeDesconto": "00:00:00",
+        "gerarDesconto": false,
+        "vagasMoto": 15,
+        "vagasCarro": 50,
+        "vagasVan": 5
+        }
+     */
+
     @Autowired
     private ConfiguracaoService service;
 
@@ -25,13 +41,13 @@ public class ConfiguracaoController {
     }
 
     @PostMapping
-    public ResponseEntity<?> cadastrar(@RequestBody final Configuracao configuracao){
+    private ResponseEntity<?> cadastrar(@RequestBody final Configuracao configuracao){
         try {
             this.service.salvar(configuracao);
             return ResponseEntity.ok("Registro cadastrado com Sucesso");
 
         } catch (Exception e){
-            return ResponseEntity.badRequest().body("Error ao Cadastrar Configuração");
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
     @PutMapping(value = "/{id}")
@@ -42,8 +58,7 @@ public class ConfiguracaoController {
             this.service.editar(id,configuracao);
             return ResponseEntity.ok("Registro cadastrado com Sucesso");
 
-        }
-        catch (Exception e){
+        } catch (Exception e){
             return ResponseEntity.badRequest().body("Error");
         }
     }

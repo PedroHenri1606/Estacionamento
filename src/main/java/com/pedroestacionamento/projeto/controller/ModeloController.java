@@ -11,6 +11,23 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "/api/modelo")
 public class ModeloController {
 
+     /*
+        {
+        "id": 1,
+        "cadastro": "2023-05-01T22:38:24.311867",
+        "edicao": null,
+        "ativo": true,
+        "nome": "XRE 300",
+        "marca": {
+            "id": 1,
+            "cadastro": "2023-05-01T22:35:11.143788",
+            "edicao": null,
+            "ativo": true,
+            "nome": "Honda"
+             }
+        }
+     */
+
     @Autowired
     private ModeloService service;
 
@@ -28,7 +45,7 @@ public class ModeloController {
             return ResponseEntity.ok(service.listarModelo());
 
         } catch (Exception e){
-            return ResponseEntity.badRequest().body("Error ao listar Modelos");
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
@@ -38,7 +55,7 @@ public class ModeloController {
             return ResponseEntity.ok(service.listarPorAtivo());
 
         } catch (Exception e){
-            return ResponseEntity.badRequest().body("Error ao listar Modelos por ativo");
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
@@ -49,9 +66,10 @@ public class ModeloController {
             return ResponseEntity.ok("Registro cadastrado com Sucesso");
 
         } catch (Exception e){
-            return ResponseEntity.badRequest().body("Error ao cadastrar modelo");
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
     @PutMapping(value = "/{id}")
         private ResponseEntity<?> editar(
                 @PathVariable("id") final Long id,
@@ -61,7 +79,31 @@ public class ModeloController {
             return ResponseEntity.ok("Registro cadastrado com Sucesso");
 
         } catch (Exception e){
-            return ResponseEntity.badRequest().body("Error ao atualizar modelo");
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PutMapping(value = "desativar/{id}")
+    private ResponseEntity<?> desativar(
+            @PathVariable("id") final Long id){
+        try{
+            service.desativar(id);
+            return ResponseEntity.ok("Registro desativado com sucesso!");
+
+        } catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PutMapping(value = "ativar/{id}")
+    private ResponseEntity<?> ativar(
+            @PathVariable("id") final Long id){
+        try{
+            service.ativar(id);
+            return ResponseEntity.ok("Registro ativado com sucesso!");
+
+        } catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
@@ -74,7 +116,7 @@ public class ModeloController {
             return ResponseEntity.ok("Registro deletado com Sucesso");
 
         } catch (Exception e){
-            return ResponseEntity.badRequest().body("Error ao deletar");
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 }
