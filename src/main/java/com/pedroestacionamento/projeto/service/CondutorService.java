@@ -36,25 +36,23 @@ public class CondutorService {
     }
 
     public Condutor editar(Long id, Condutor condutorNovo){
-        final Condutor entidadeBanco = this.buscarPorId(id);
+        final Condutor condutorBanco = this.buscarPorId(id);
 
-        if(entidadeBanco == null || !entidadeBanco.getId().equals(condutorNovo.getId())){
-            throw new RuntimeException("Não foi possivel identificar o registro informado");
+        if(condutorBanco == null || !condutorBanco.getId().equals(condutorNovo.getId())){
+            throw new RuntimeException("não foi possivel identificar o registro informado!");
         }
             return repository.save(condutorNovo);
     }
 
     public void deletar(Long id){
-
         final Condutor condutorBanco = this.buscarPorId(id);
         List<Movimentacao> movimentacoes = this.repository.buscarMovimentacaoPorCondutor(condutorBanco.getId());
 
-        if(movimentacoes == null){
+        if(movimentacoes.isEmpty()){
             this.repository.deleteById(condutorBanco.getId());
         } else {
             this.repository.desativar(condutorBanco.getId());
-            throw new RuntimeException("Condutor possui movimentações, condutor desativado");
-
+            throw new RuntimeException("condutor possui movimentações, condutor desativado!");
         }
     }
 }

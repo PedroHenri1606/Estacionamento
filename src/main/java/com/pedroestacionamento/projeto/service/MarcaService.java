@@ -1,6 +1,7 @@
 package com.pedroestacionamento.projeto.service;
 
 import com.pedroestacionamento.projeto.entity.Marca;
+import com.pedroestacionamento.projeto.entity.Movimentacao;
 import com.pedroestacionamento.projeto.repository.MarcaRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,37 +40,23 @@ public class MarcaService {
     }
 
     public Marca editar(Long id, Marca marcaNova){
-        try{
-            final Marca marcaBanco = repository.findById(id).orElse(null);
-            if(marcaBanco == null || marcaBanco.getId().equals(marcaNova.getId())){
-                throw new RuntimeException("Não foi possivel indentificar o registro informado");
-            }
+        final Marca marcaBanco = repository.findById(id).orElse(null);
 
-            marcaBanco.setNome(marcaNova.getNome());
-
-            return  repository.save(marcaBanco);
+        if(marcaBanco == null || !marcaBanco.getId().equals(marcaNova.getId())){
+            throw new RuntimeException("não foi possivel indentificar o registro informado!");
         }
-        catch (EntityNotFoundException e){
-            throw new EntityNotFoundException(e);
-        }
+            return  repository.save(marcaNova);
     }
 
-    public void deletar(Long id,Marca marca){
-        try{
-            final Marca marcaBanco = repository.findById(id).orElse(null);
-            if(marcaBanco == null || marcaBanco.getId().equals(marca.getId())){
-                throw new RuntimeException("Não foi possivel indentificar o registro informado");
-            }
-            if(!marcaBanco.getAtivo()) {
-                repository.deleteById(id);
-            } else {
-                this.desativar(marcaBanco.getId());
-                repository.save(marcaBanco);
-            }
+    public void deletar(Long id){
+        final Marca marcaBanco = repository.findById(id).orElse(null);
+        List<Movimentacao> movimentacoes = this.repository.buscarMovimentacaoPorMarca(marcaBanco.getId());
 
-        } catch (EntityNotFoundException e){
-            throw new EntityNotFoundException(e);
+        if(movimentacoes.isEmpty()){
+            this.repository.deleteById(marcaBanco.getId());
+        } else {
+            this.repository.desativar(marcaBanco.getId());
+            throw new RuntimeException("marca possui movimentações, marca desativada!");
         }
-
     }
 }

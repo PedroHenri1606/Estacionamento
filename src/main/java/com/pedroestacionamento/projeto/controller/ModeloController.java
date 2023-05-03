@@ -33,9 +33,9 @@ public class ModeloController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> buscarPorId(@PathVariable("id") final Long id){
-        final Modelo modelo = service.buscarModeloPorId(id);
+        final Modelo modelo = service.buscarPorId(id);
         return modelo == null
-                ?ResponseEntity.badRequest().body("Nennhum modelo Encontrado")
+                ?ResponseEntity.badRequest().body("Nennhum modelo encontrado!")
                 :ResponseEntity.ok(modelo);
     }
 
@@ -45,7 +45,7 @@ public class ModeloController {
             return ResponseEntity.ok(service.listarModelo());
 
         } catch (Exception e){
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body("Error " + e.getMessage());
         }
     }
 
@@ -55,7 +55,7 @@ public class ModeloController {
             return ResponseEntity.ok(service.listarPorAtivo());
 
         } catch (Exception e){
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body("Error " + e.getMessage());
         }
     }
 
@@ -63,60 +63,56 @@ public class ModeloController {
     public ResponseEntity<?> cadastrar(@RequestBody final Modelo modelo){
         try {
             service.salvar(modelo);
-            return ResponseEntity.ok("Registro cadastrado com Sucesso");
+            return ResponseEntity.ok("Registro cadastrado com sucesso!");
 
         } catch (Exception e){
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body("Error " + e.getMessage());
         }
     }
 
-    @PutMapping(value = "/{id}")
-        private ResponseEntity<?> editar(
-                @PathVariable("id") final Long id,
+    @PutMapping(value = "/editar")
+    public ResponseEntity<?> editar(
+                @RequestParam("id") final Long id,
                 @RequestBody final Modelo modelo){
         try {
             service.editar(id,modelo);
-            return ResponseEntity.ok("Registro cadastrado com Sucesso");
+            return ResponseEntity.ok("Registro atualizado com sucesso!");
 
         } catch (Exception e){
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body("Error " + e.getMessage());
         }
     }
 
-    @PutMapping(value = "desativar/{id}")
-    private ResponseEntity<?> desativar(
-            @PathVariable("id") final Long id){
+    @PutMapping(value = "/desativar")
+    public ResponseEntity<?> desativar(@RequestParam("id") final Long id){
         try{
             service.desativar(id);
             return ResponseEntity.ok("Registro desativado com sucesso!");
 
         } catch (Exception e){
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body("Error " + e.getMessage());
         }
     }
 
-    @PutMapping(value = "ativar/{id}")
-    private ResponseEntity<?> ativar(
-            @PathVariable("id") final Long id){
+    @PutMapping(value = "/ativar")
+    public ResponseEntity<?> ativar(@RequestParam("id") final Long id){
         try{
             service.ativar(id);
             return ResponseEntity.ok("Registro ativado com sucesso!");
 
         } catch (Exception e){
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body("Error " + e.getMessage());
         }
     }
 
-    @DeleteMapping(value = "/{id}")
-        private ResponseEntity<?> deletar(
-                @PathVariable final long id,
-                @RequestBody final Modelo modelo){
+    @DeleteMapping(value = "/deletar")
+    public ResponseEntity<?> deletar(@RequestParam final long id){
         try{
-            service.deletar(id,modelo);
-            return ResponseEntity.ok("Registro deletado com Sucesso");
+            service.deletar(id);
+            return ResponseEntity.ok("Registro deletado com sucesso!");
 
         } catch (Exception e){
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body("Error " + e.getMessage());
         }
     }
 }

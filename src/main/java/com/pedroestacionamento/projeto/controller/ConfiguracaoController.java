@@ -36,7 +36,7 @@ public class ConfiguracaoController {
             return ResponseEntity.ok(service.listarConfiguracoes());
 
         } catch (Exception e){
-            return ResponseEntity.badRequest().body("Error ao listar Configurações");
+            return ResponseEntity.badRequest().body("Error " + e.getMessage());
         }
     }
 
@@ -44,22 +44,22 @@ public class ConfiguracaoController {
     private ResponseEntity<?> cadastrar(@RequestBody final Configuracao configuracao){
         try {
             this.service.salvar(configuracao);
-            return ResponseEntity.ok("Registro cadastrado com Sucesso");
+            return ResponseEntity.ok("Registro cadastrado com sucesso!");
 
         } catch (Exception e){
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body("Error " + e.getMessage());
         }
     }
-    @PutMapping(value = "/{id}")
+    @PutMapping(value = "/editar")
         private ResponseEntity<?> editar(
-                @PathVariable("id") final Long id,
+                @RequestParam("id") final Long id,
                 @RequestBody final Configuracao configuracao){
         try {
             this.service.editar(id,configuracao);
-            return ResponseEntity.ok("Registro cadastrado com Sucesso");
+            return ResponseEntity.ok("Registro atualizado com sucesso!");
 
         } catch (Exception e){
-            return ResponseEntity.badRequest().body("Error");
+            return ResponseEntity.badRequest().body("Error " + e.getMessage());
         }
     }
 }

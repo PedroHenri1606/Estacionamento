@@ -34,7 +34,7 @@ public class CondutorController {
     public ResponseEntity<?> buscarPorId(@PathVariable("id") final Long id) {
         final Condutor condutor = service.buscarPorId(id);
         return condutor == null
-                ? ResponseEntity.badRequest().body("Nennhum valor Encontrado")
+                ? ResponseEntity.badRequest().body("Nennhum condutor encontrado!")
                 : ResponseEntity.ok(condutor);
     }
 
@@ -62,7 +62,7 @@ public class CondutorController {
     public ResponseEntity<?> cadastrar(@RequestBody final Condutor condutor){
         try {
             service.salvar(condutor);
-            return ResponseEntity.ok("Registro cadastrado com Sucesso");
+            return ResponseEntity.ok("Registro cadastrado com sucesso!");
 
         } catch (Exception e){
             return ResponseEntity.badRequest().body("Error " + e.getMessage());
@@ -74,7 +74,7 @@ public class CondutorController {
             @RequestBody final Condutor condutorNovo){
         try {
             service.editar(id,condutorNovo);
-            return ResponseEntity.ok("Registro atualizado com Sucesso");
+            return ResponseEntity.ok("Registro atualizado com sucesso!");
 
         } catch (Exception e){
             return ResponseEntity.badRequest().body("Error " + e.getMessage());
@@ -86,7 +86,7 @@ public class CondutorController {
     public ResponseEntity<?> desativar(@RequestParam("id") final Long id){
         try {
             service.desativar(id);
-            return ResponseEntity.ok("Registro atualizado com Sucesso");
+            return ResponseEntity.ok("Registro desativado com sucesso!");
 
         } catch (Exception e){
             return ResponseEntity.badRequest().body("Error " + e.getMessage());
@@ -97,7 +97,7 @@ public class CondutorController {
     public ResponseEntity<?> ativar(@RequestParam("id") final Long id){
         try {
             service.ativar(id);
-            return ResponseEntity.ok("Registro atualizado com Sucesso");
+            return ResponseEntity.ok("Registro ativado com sucesso!");
 
         } catch (Exception e){
             return ResponseEntity.badRequest().body("Error " + e.getMessage());
@@ -109,7 +109,7 @@ public class CondutorController {
 
         try {
             service.deletar(id);
-            return ResponseEntity.ok("Registro deletado com Sucesso");
+            return ResponseEntity.ok("Registro deletado com sucesso!");
 
         } catch (Exception e){
             return ResponseEntity.badRequest().body("Error " + e.getMessage());

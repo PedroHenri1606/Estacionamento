@@ -35,43 +35,11 @@ public class MovimentacaoService {
     }
 
     public Movimentacao editar(Long id, Movimentacao movimentacaoNova){
-        try{
-            final Movimentacao movimentacaoBanco = repository.findById(id).orElse(null);
-            if(movimentacaoBanco == null || movimentacaoBanco.getId().equals(movimentacaoNova.getId())){
-                throw new RuntimeException("Não foi possivel indentificar o registro informado");
-            }
+        final Movimentacao movimentacaoBanco = repository.findById(id).orElse(null);
 
-            movimentacaoBanco.setEntrada(movimentacaoNova.getEntrada());
-            movimentacaoBanco.setSaida(movimentacaoNova.getSaida());
-            movimentacaoBanco.setTempo(movimentacaoNova.getTempoDesconto());
-            movimentacaoBanco.setTempoDesconto(movimentacaoNova.getTempoDesconto());
-            movimentacaoBanco.setTempoMulta(movimentacaoNova.getTempoMulta());
-            movimentacaoBanco.setValorDesconto(movimentacaoNova.getValorDesconto());
-            movimentacaoBanco.setValorHora(movimentacaoNova.getValorHoraMulta());
-            movimentacaoBanco.setValorHoraMulta(movimentacaoNova.getValorMulta());
-            movimentacaoBanco.setValorTotal(movimentacaoNova.getValorTotal());
-            movimentacaoBanco.setCondutor(movimentacaoNova.getCondutor());
-            movimentacaoBanco.setVeiculo(movimentacaoNova.getVeiculo());
-
-            return repository.save(movimentacaoBanco);
-
-        } catch (EntityNotFoundException e){
-            throw new EntityNotFoundException(e);
+        if(movimentacaoBanco == null || !movimentacaoBanco.getId().equals(movimentacaoNova.getId())) {
+            throw new RuntimeException("Não foi possivel indentificar o registro informado");
         }
-    }
-
-    public Movimentacao desativarMovimentacao(Long id,Movimentacao movimentacao){
-        try{
-            final Movimentacao movimentacaoBanco = repository.findById(id).orElse(null);
-            if(movimentacaoBanco == null || movimentacaoBanco.getId().equals(movimentacao.getId())){
-                throw new RuntimeException("Não foi possivel indentificar o registro informado");
-            }
-            this.desativar(movimentacaoBanco.getId());
-            return repository.save(movimentacaoBanco);
-
-        } catch (EntityNotFoundException e){
-            throw new EntityNotFoundException(e);
-        }
-
+            return repository.save(movimentacaoNova);
     }
 }

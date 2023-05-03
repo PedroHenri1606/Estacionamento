@@ -72,7 +72,7 @@ public class  MovimentacaoController {
     public ResponseEntity<?> buscarPorId(@PathVariable("id") final Long id){
         final Movimentacao movimentacao = service.buscarMovimentacaoPorId(id);
         return movimentacao == null
-                ?ResponseEntity.badRequest().body("Nennhuma movimentação Encontrada")
+                ?ResponseEntity.badRequest().body("Nennhuma movimentação encontrada!")
                 :ResponseEntity.ok(movimentacao);
     }
 
@@ -82,7 +82,7 @@ public class  MovimentacaoController {
             return ResponseEntity.ok(service.listarMovimentacao());
 
         } catch (Exception e){
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body("Error " + e.getMessage());
         }
     }
 
@@ -90,36 +90,34 @@ public class  MovimentacaoController {
     public ResponseEntity<?> cadastrar(@RequestBody final Movimentacao movimentacao){
         try {
             service.salvar(movimentacao);
-            return ResponseEntity.ok("Registro cadastrado com Sucesso");
+            return ResponseEntity.ok("Registro cadastrado com sucesso!");
 
         } catch (Exception e){
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body("Error " + e.getMessage());
         }
     }
 
-    @PutMapping(value = "/{id}")
-        private ResponseEntity<?> editar(
-                @PathVariable("id") final Long id,
+    @PutMapping(value = "/editar")
+    public ResponseEntity<?> editar(
+                @RequestParam("id") final Long id,
                 @RequestBody final Movimentacao movimentacao){
         try {
             service.editar(id,movimentacao);
-            return ResponseEntity.ok("Registro cadastrado com Sucesso");
+            return ResponseEntity.ok("Registro editado com sucesso!");
         }
         catch (Exception e){
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body("Error " + e.getMessage());
         }
     }
 
-    @DeleteMapping(value = "/{id}")
-        private ResponseEntity<?> deletar(
-                @PathVariable final long id,
-                @RequestBody final Movimentacao movimentacao){
+    @PutMapping(value = "/desativar")
+    public ResponseEntity<?> desativar(@RequestParam final long id){
         try {
-            service.desativarMovimentacao(id, movimentacao);
-            return ResponseEntity.ok("Registro deletado com sucesso");
+            service.desativar(id);
+            return ResponseEntity.ok("Registro desativado com sucesso!");
 
         } catch (Exception e){
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body("Error " + e.getMessage());
         }
     }
 }

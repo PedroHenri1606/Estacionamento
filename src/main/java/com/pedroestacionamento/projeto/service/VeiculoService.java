@@ -34,39 +34,23 @@ public class VeiculoService {
     public void ativar(Long id){repository.ativar(id);}
 
     public Veiculo editar(Long id, Veiculo veiculoNovo){
-        try{
-            final Veiculo veiculoBanco = repository.findById(id).orElse(null);
-            if(veiculoBanco == null || veiculoBanco.getId().equals(veiculoNovo.getId())){
-                throw new RuntimeException("Não foi possivel indentificar o registro informado");
-            }
+        final Veiculo veiculoBanco = repository.findById(id).orElse(null);
 
-            veiculoBanco.setModelo(veiculoNovo.getModelo());
-            veiculoBanco.setCor(veiculoNovo.getCor());
-            veiculoBanco.setTipoVeiculo(veiculoNovo.getTipoVeiculo());
-            veiculoBanco.setAno(veiculoNovo.getAno());
-            veiculoBanco.setPlaca(veiculoNovo.getPlaca());
-
-            return repository.save(veiculoBanco);
-
-        } catch (EntityNotFoundException e){
-            throw new EntityNotFoundException(e);
+        if(veiculoBanco == null || !veiculoBanco.getId().equals(veiculoNovo.getId())){
+            throw new RuntimeException("Não foi possivel indentificar o registro informado");
         }
+            return repository.save(veiculoNovo);
     }
 
-    public void deletar(Long id, Veiculo veiculo){
-        try{
-            final Veiculo veiculoBanco = repository.findById(id).orElse(null);
-            if(veiculoBanco == null || veiculoBanco.getId().equals(veiculo.getId())){
-                throw new RuntimeException("Não foi possivel indentificar o registro informado");
-            }
-            if(!veiculoBanco.getAtivo()) {
-                repository.deleteById(id);
-            } else {
-                this.desativar(veiculoBanco.getId());
-                repository.save(veiculoBanco);
-            }
-        } catch (EntityNotFoundException e){
-            throw new EntityNotFoundException(e);
+    public void deletar(Long id) {
+        final Veiculo veiculoBanco = this.buscarVeiculoPorId(id);
+        List<Movimentacao> movimentacoes = repository.listarMovimentacaoPorVeiculo(veiculoBanco.getId());
+
+        if(movimentacoes.isEmpty()){
+            this.repository.deleteById(veiculoBanco.getId());
+        } else {
+            this.repository.desativar(veiculoBanco.getId());
+            throw new RuntimeException("veiculo possui movimentações, veiculo desativado!");
         }
     }
 }

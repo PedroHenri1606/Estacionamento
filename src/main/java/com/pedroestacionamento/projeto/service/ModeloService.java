@@ -1,6 +1,7 @@
 package com.pedroestacionamento.projeto.service;
 
 import com.pedroestacionamento.projeto.entity.Modelo;
+import com.pedroestacionamento.projeto.entity.Movimentacao;
 import com.pedroestacionamento.projeto.repository.ModeloRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ public class ModeloService {
     @Autowired
     private ModeloRepository repository;
 
-    public Modelo buscarModeloPorId(Long id){
+    public Modelo buscarPorId(Long id){
         return repository.findById(id).orElse(null);
     }
 
@@ -37,36 +38,24 @@ public class ModeloService {
     }
 
     public Modelo editar(Long id, Modelo modeloNovo){
-        try{
-            final Modelo modeloBanco = repository.findById(id).orElse(null);
-            if(modeloBanco == null || modeloBanco.getId().equals(modeloNovo.getId())){
-                throw new RuntimeException("Não foi possivel indentificar o registro informado");
-            }
-
-            modeloBanco.setNome(modeloNovo.getNome());
-            modeloBanco.setMarca(modeloNovo.getMarca());
-
-            return repository.save(modeloBanco);
-
-        } catch (EntityNotFoundException e){
-            throw new RuntimeException(e);
+        final Modelo modeloBanco = repository.findById(id).orElse(null);
+        if(modeloBanco == null || !modeloBanco.getId().equals(modeloNovo.getId())) {
+            throw new RuntimeException("Não foi possivel indentificar o registro informado");
         }
+            return repository.save(modeloNovo);
     }
 
-    public void deletar(Long id, Modelo modelo){
-        try{
-            final Modelo modeloBanco = repository.findById(id).orElse(null);
-            if(modeloBanco == null || modeloBanco.getId().equals(modelo.getId())){
-                throw new RuntimeException("Não foi possivel indentificar o registro informado");
-            }
-            if(!modeloBanco.getAtivo()) {
-                repository.deleteById(id);
-            } else {
-                this.desativar(modeloBanco.getId());
-                repository.save(modeloBanco);
-            }
-        } catch (EntityNotFoundException e){
-            throw new EntityNotFoundException(e);
+    public void deletar(Long id){
+
+        final Modelo modeloBanco = this.buscarPorId(id);
+        List<Movimentacao> movimentacoes = this.repository.buscarMovimentacaoPorModelo(modeloBanco.getId());
+
+        if(movimentacoes.isEmpty()){
+            this.repository.deleteById(modeloBanco.getId());
+        } else {
+            this.repository.desativar(modeloBanco.getId());
+            throw new RuntimeException("modelo possui movimentações, modelo desativado!");
         }
+
     }
 }

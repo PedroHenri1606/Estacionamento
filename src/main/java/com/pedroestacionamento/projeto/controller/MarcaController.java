@@ -28,7 +28,7 @@ public class MarcaController {
     public ResponseEntity<?> buscarPorId(@PathVariable("id") final Long id) {
         final Marca marca = service.buscarMarcaPorId(id);
         return marca == null
-                ? ResponseEntity.badRequest().body("Nennhuma Marca Encontrado")
+                ? ResponseEntity.badRequest().body("Nenhuma marca encontrada!")
                 : ResponseEntity.ok(marca);
     }
 
@@ -38,7 +38,7 @@ public class MarcaController {
             return ResponseEntity.ok(service.listarMarca());
 
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body("Error " + e.getMessage());
         }
     }
 
@@ -48,7 +48,7 @@ public class MarcaController {
             return ResponseEntity.ok(service.listarPorAtivo());
 
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body("Error " +e.getMessage());
         }
     }
 
@@ -59,57 +59,54 @@ public class MarcaController {
             return ResponseEntity.ok("Registro cadastrado com Sucesso");
 
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body("Error " + e.getMessage());
         }
     }
 
-    @PutMapping(value = "/{id}")
-    private ResponseEntity<?> editar(
-            @PathVariable("id") final Long id,
+    @PutMapping(value = "/editar")
+    public ResponseEntity<?> editar(
+            @RequestParam("id") final Long id,
             @RequestBody final Marca marca) {
         try {
-            service.editar(id, marca);
+            service.editar(id,marca);
             return ResponseEntity.ok("Registro atualizado com Sucesso");
 
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body("Error " +e.getMessage());
         }
     }
 
-    @PutMapping(value = "/desativar/{id}")
-    private ResponseEntity<?> desativar(
-            @PathVariable("id") final Long id) {
+    @PutMapping(value = "/desativar")
+    public ResponseEntity<?> desativar(@RequestParam("id") final Long id) {
         try {
             service.desativar(id);
             return ResponseEntity.ok("Registro desativado com sucesso!");
 
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body("Error " +e.getMessage());
         }
     }
 
-    @PutMapping(value = "/ativar/{id}")
-    private ResponseEntity<?> ativar(
-            @PathVariable("id") final Long id){
+    @PutMapping(value = "/ativar")
+    public ResponseEntity<?> ativar(@RequestParam("id") final Long id){
         try{
             service.ativar(id);
             return ResponseEntity.ok("Registro ativado com sucesso!");
 
         } catch (Exception e){
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body("Error " +e.getMessage());
         }
     }
 
-    @DeleteMapping(value = "/{id}")
-        private ResponseEntity<?> deletar(
-                @PathVariable final long id,
-                @RequestBody final Marca marca){
+    @DeleteMapping(value = "/deletar")
+        public ResponseEntity<?> deletar(@RequestParam("id") final long id){
+
         try{
-            service.deletar(id,marca);
-            return ResponseEntity.ok("Registro deletado com Sucesso");
+            service.deletar(id);
+            return ResponseEntity.ok("Registro deletado com sucesso!");
 
         } catch (Exception e){
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body("Error " +e.getMessage());
         }
     }
 }
