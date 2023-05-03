@@ -34,7 +34,7 @@ public class VeiculoService {
     public void ativar(Long id){repository.ativar(id);}
 
     public Veiculo editar(Long id, Veiculo veiculoNovo){
-        final Veiculo veiculoBanco = repository.findById(id).orElse(null);
+        final Veiculo veiculoBanco = this.buscarVeiculoPorId(id);
 
         if(veiculoBanco == null || !veiculoBanco.getId().equals(veiculoNovo.getId())){
             throw new RuntimeException("Não foi possivel indentificar o registro informado");
@@ -50,7 +50,7 @@ public class VeiculoService {
             this.repository.deleteById(veiculoBanco.getId());
         } else {
             this.repository.desativar(veiculoBanco.getId());
-            throw new RuntimeException("veiculo possui movimentações, veiculo desativado!");
+            throw new RuntimeException("veiculo possui movimentações ativas, veiculo desativado!");
         }
     }
 }

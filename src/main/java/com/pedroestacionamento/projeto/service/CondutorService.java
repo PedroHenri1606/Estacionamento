@@ -52,7 +52,7 @@ public class CondutorService {
             this.repository.deleteById(condutorBanco.getId());
         } else {
             this.repository.desativar(condutorBanco.getId());
-            throw new RuntimeException("condutor possui movimentações, condutor desativado!");
+            throw new RuntimeException("condutor possui movimentações ativas, condutor desativado!");
         }
     }
 }

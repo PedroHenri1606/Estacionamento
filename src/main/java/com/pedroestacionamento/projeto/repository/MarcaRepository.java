@@ -17,8 +17,8 @@ public interface MarcaRepository extends JpaRepository<Marca,Long> {
     @Query("SELECT marca FROM Marca marca WHERE marca.ativo = true")
     public List<Marca> listarPorAtivo();
 
-    @Query("SELECT movimentacao FROM Movimentacao movimentacao WHERE marca.id = :id")
-    public List<Movimentacao> buscarMovimentacaoPorMarca(@Param("id") Long marcaId);
+    @Query("SELECT modelo FROM Modelo modelo WHERE marca.id = :id")
+    public List<Movimentacao> buscarModeloPorMarca(@Param("id") final Long marcaId);
 
     @Transactional
     @Modifying

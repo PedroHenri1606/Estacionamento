@@ -38,7 +38,8 @@ public class ModeloService {
     }
 
     public Modelo editar(Long id, Modelo modeloNovo){
-        final Modelo modeloBanco = repository.findById(id).orElse(null);
+        final Modelo modeloBanco = this.buscarPorId(id);
+
         if(modeloBanco == null || !modeloBanco.getId().equals(modeloNovo.getId())) {
             throw new RuntimeException("Não foi possivel indentificar o registro informado");
         }
@@ -46,15 +47,14 @@ public class ModeloService {
     }
 
     public void deletar(Long id){
-
         final Modelo modeloBanco = this.buscarPorId(id);
-        List<Movimentacao> movimentacoes = this.repository.buscarMovimentacaoPorModelo(modeloBanco.getId());
+        List<Movimentacao> movimentacoes = this.repository.buscarVeiculoPorModelo(modeloBanco.getId());
 
         if(movimentacoes.isEmpty()){
             this.repository.deleteById(modeloBanco.getId());
         } else {
             this.repository.desativar(modeloBanco.getId());
-            throw new RuntimeException("modelo possui movimentações, modelo desativado!");
+            throw new RuntimeException("modelo possui veiculos ativos, modelo desativado!");
         }
 
     }

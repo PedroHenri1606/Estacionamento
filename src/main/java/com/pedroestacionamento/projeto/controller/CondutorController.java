@@ -2,11 +2,15 @@ package com.pedroestacionamento.projeto.controller;
 
 import com.pedroestacionamento.projeto.entity.Condutor;
 import com.pedroestacionamento.projeto.service.CondutorService;
+import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.constraints.NotNull;
+import org.hibernate.validator.internal.constraintvalidators.bv.NotNullValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -44,6 +48,7 @@ public class CondutorController {
         return ResponseEntity.ok(service.listarCondutores());
 
       } catch (Exception e){
+
           return ResponseEntity.badRequest().body("Error " + e.getMessage());
       }
     }

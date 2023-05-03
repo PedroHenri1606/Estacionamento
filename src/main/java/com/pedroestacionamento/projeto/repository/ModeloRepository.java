@@ -17,8 +17,8 @@ public interface ModeloRepository extends JpaRepository<Modelo,Long> {
     @Query("SELECT modelo FROM Modelo modelo WHERE modelo.ativo = true")
     public List<Modelo> listarPorAtivo();
 
-    @Query("SELECT movimentacao FROM Movimentacao movimentacao WHERE modelo.id = :id")
-    public List<Movimentacao> buscarMovimentacaoPorModelo(@Param("id") Long modeloId);
+    @Query("SELECT veiculo FROM Veiculo veiculo WHERE modelo.id = :id")
+    public List<Movimentacao> buscarVeiculoPorModelo(@Param("id") final Long modeloId);
 
     @Transactional
     @Modifying

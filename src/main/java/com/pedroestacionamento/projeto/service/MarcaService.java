@@ -40,7 +40,7 @@ public class MarcaService {
     }
 
     public Marca editar(Long id, Marca marcaNova){
-        final Marca marcaBanco = repository.findById(id).orElse(null);
+        final Marca marcaBanco = this.buscarMarcaPorId(id);
 
         if(marcaBanco == null || !marcaBanco.getId().equals(marcaNova.getId())){
             throw new RuntimeException("não foi possivel indentificar o registro informado!");
@@ -49,14 +49,14 @@ public class MarcaService {
     }
 
     public void deletar(Long id){
-        final Marca marcaBanco = repository.findById(id).orElse(null);
-        List<Movimentacao> movimentacoes = this.repository.buscarMovimentacaoPorMarca(marcaBanco.getId());
+        final Marca marcaBanco = this.buscarMarcaPorId(id);
+        List<Movimentacao> movimentacoes = this.repository.buscarModeloPorMarca(marcaBanco.getId());
 
         if(movimentacoes.isEmpty()){
             this.repository.deleteById(marcaBanco.getId());
         } else {
             this.repository.desativar(marcaBanco.getId());
-            throw new RuntimeException("marca possui movimentações, marca desativada!");
+            throw new RuntimeException("marca possui modelos ativos, marca desativada!");
         }
     }
 }
