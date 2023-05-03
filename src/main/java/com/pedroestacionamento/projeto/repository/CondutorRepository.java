@@ -1,6 +1,7 @@
 package com.pedroestacionamento.projeto.repository;
 
 import com.pedroestacionamento.projeto.entity.Condutor;
+import com.pedroestacionamento.projeto.entity.Movimentacao;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -16,6 +17,9 @@ public interface CondutorRepository extends JpaRepository<Condutor, Long> {
 
     @Query("SELECT condutor FROM Condutor condutor WHERE condutor.ativo = true")
     public  List<Condutor> listarPorAtivo();
+
+    @Query("SELECT movimentacao FROM Movimentacao movimentacao WHERE condutor.id = :id")
+    public List<Movimentacao> buscarMovimentacaoPorCondutor(@Param("id") final Long condutorId);
 
     @Transactional
     @Modifying

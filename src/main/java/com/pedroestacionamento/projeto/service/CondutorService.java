@@ -1,10 +1,9 @@
 package com.pedroestacionamento.projeto.service;
 
 import com.pedroestacionamento.projeto.entity.Condutor;
+import com.pedroestacionamento.projeto.entity.Movimentacao;
 import com.pedroestacionamento.projeto.repository.CondutorRepository;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -37,39 +36,25 @@ public class CondutorService {
     }
 
     public Condutor editar(Long id, Condutor condutorNovo){
-        try{
-           final Condutor entidadeBanco = repository.findById(id).orElse(null);
-           if(entidadeBanco == null || entidadeBanco.getId().equals(condutorNovo.getId())){
-                throw new RuntimeException("Não foi possivel indentifcar o registro informado");
-            }
-            entidadeBanco.setNome(condutorNovo.getNome());
-            entidadeBanco.setCpf(condutorNovo.getCpf());
-            entidadeBanco.setTelefone(condutorNovo.getTelefone());
-            entidadeBanco.setTempoPago(condutorNovo.getTempoPago());
-            entidadeBanco.setTempoDesconto(condutorNovo.getTempoDesconto());
+        final Condutor entidadeBanco = this.buscarPorId(id);
 
-            return repository.save(entidadeBanco);
-
-        } catch (EntityNotFoundException e){
-            throw new EntityNotFoundException(e);
+        if(entidadeBanco == null || !entidadeBanco.getId().equals(condutorNovo.getId())){
+            throw new RuntimeException("Não foi possivel identificar o registro informado");
         }
+            return repository.save(condutorNovo);
     }
 
-    public void deletar(Long id, Condutor condutor){
-        try{
-            final Condutor condutorBanco = repository.findById(id).orElse(null);
-            if(condutorBanco == null || condutorBanco.getId().equals(condutor.getId())) {
-                throw new RuntimeException("Não foi possivel indentifcar o registro informado");
-            }
-            if(!condutorBanco.getAtivo()) {
-                repository.deleteById(id);
-            } else {
-                this.desativar(condutorBanco.getId());
-                repository.save(condutorBanco);
-            }
+    public void deletar(Long id){
 
-        } catch (EmptyResultDataAccessException e){
-            throw new EntityNotFoundException(e);
+        final Condutor condutorBanco = this.buscarPorId(id);
+        List<Movimentacao> movimentacoes = this.repository.buscarMovimentacaoPorCondutor(condutorBanco.getId());
+
+        if(movimentacoes == null){
+            this.repository.deleteById(condutorBanco.getId());
+        } else {
+            this.repository.desativar(condutorBanco.getId());
+            throw new RuntimeException("Condutor possui movimentações, condutor desativado");
+
         }
     }
 }
