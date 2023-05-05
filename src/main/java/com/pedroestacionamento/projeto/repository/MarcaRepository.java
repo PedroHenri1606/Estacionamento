@@ -20,6 +20,9 @@ public interface MarcaRepository extends JpaRepository<Marca,Long> {
     @Query("SELECT modelo FROM Modelo modelo WHERE marca.id = :id")
     public List<Movimentacao> buscarModeloPorMarca(@Param("id") final Long marcaId);
 
+    @Query("SELECT marca FROM Marca marca WHERE marca.nome = :nome")
+    public boolean verificaNome(@Param("nome")String nome);
+
     @Transactional
     @Modifying
     @Query("UPDATE Marca marca SET marca.ativo = false WHERE marca.id = :id")

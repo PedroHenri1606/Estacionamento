@@ -26,10 +26,13 @@ public class MarcaController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> buscarPorId(@PathVariable("id") final Long id) {
-        final Marca marca = service.buscarMarcaPorId(id);
-        return marca == null
-                ? ResponseEntity.badRequest().body("Nenhuma marca encontrada!")
-                : ResponseEntity.ok(marca);
+        try {
+            final Marca marca = service.buscarMarcaPorId(id);
+            return ResponseEntity.ok(marca);
+
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error ");
+        }
     }
 
     @GetMapping("/listar")

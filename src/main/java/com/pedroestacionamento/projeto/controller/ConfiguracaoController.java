@@ -43,7 +43,7 @@ public class ConfiguracaoController {
     @PostMapping
     private ResponseEntity<?> cadastrar(@RequestBody final Configuracao configuracao){
         try {
-            this.service.salvar(configuracao);
+            service.salvar(configuracao);
             return ResponseEntity.ok("Registro cadastrado com sucesso!");
 
         } catch (Exception e){
@@ -55,7 +55,7 @@ public class ConfiguracaoController {
                 @RequestParam("id") final Long id,
                 @RequestBody final Configuracao configuracao){
         try {
-            this.service.editar(id,configuracao);
+            service.editar(id,configuracao);
             return ResponseEntity.ok("Registro atualizado com sucesso!");
 
         } catch (Exception e){

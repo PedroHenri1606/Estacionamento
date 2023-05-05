@@ -15,7 +15,12 @@ public class ConfiguracaoService {
     private ConfiguracaoRepository repository;
 
     public List<Configuracao> listarConfiguracoes(){
-        return repository.findAll();
+        if(repository.findAll().isEmpty()){
+            throw new RuntimeException(", banco de dados não possui configuração cadastrada!");
+
+        } else {
+            return repository.findAll();
+        }
     }
 
     public Configuracao salvar(Configuracao configuracao) {

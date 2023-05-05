@@ -36,10 +36,13 @@ public class CondutorController {
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<?> buscarPorId(@PathVariable("id") final Long id) {
-        final Condutor condutor = service.buscarPorId(id);
-        return condutor == null
-                ? ResponseEntity.badRequest().body("Nennhum condutor encontrado!")
-                : ResponseEntity.ok(condutor);
+        try {
+            final Condutor condutor = service.buscarPorId(id);
+            return ResponseEntity.ok(condutor);
+
+        } catch (Exception e){
+            return ResponseEntity.badRequest().body("Error " + e.getMessage());
+        }
     }
 
     @GetMapping(value = "/listar")
@@ -48,7 +51,6 @@ public class CondutorController {
         return ResponseEntity.ok(service.listarCondutores());
 
       } catch (Exception e){
-
           return ResponseEntity.badRequest().body("Error " + e.getMessage());
       }
     }

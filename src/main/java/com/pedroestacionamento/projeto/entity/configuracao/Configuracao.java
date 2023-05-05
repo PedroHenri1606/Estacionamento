@@ -56,16 +56,4 @@ public class Configuracao extends AbstractEntity {
     @Column(name = "vagas_van")
     private Integer vagasVan;
 
-    public Configuracao(BigDecimal valorHora, BigDecimal valorMinutoMulta, LocalTime inicioExpediente, LocalTime fimExpediente, LocalTime tempoParaDesconto, LocalTime tempoDeDesconto, Boolean gerarDesconto, Integer vagasMoto, Integer vagasCarro, Integer vagasVan) {
-        this.valorHora = valorHora;
-        this.valorMinutoMulta = valorMinutoMulta;
-        this.inicioExpediente = inicioExpediente;
-        this.fimExpediente = fimExpediente;
-        this.tempoParaDesconto = tempoParaDesconto;
-        this.tempoDeDesconto = tempoDeDesconto;
-        this.gerarDesconto = gerarDesconto;
-        this.vagasMoto = vagasMoto;
-        this.vagasCarro = vagasCarro;
-        this.vagasVan = vagasVan;
-    }
 }
