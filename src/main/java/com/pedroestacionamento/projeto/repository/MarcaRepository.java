@@ -1,6 +1,7 @@
 package com.pedroestacionamento.projeto.repository;
 
 import com.pedroestacionamento.projeto.entity.Marca;
+import com.pedroestacionamento.projeto.entity.Modelo;
 import com.pedroestacionamento.projeto.entity.Movimentacao;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,11 +18,11 @@ public interface MarcaRepository extends JpaRepository<Marca,Long> {
     @Query("SELECT marca FROM Marca marca WHERE marca.ativo = true")
     public List<Marca> listarPorAtivo();
 
-    @Query("SELECT modelo FROM Modelo modelo WHERE marca.id = :id")
-    public List<Movimentacao> buscarModeloPorMarca(@Param("id") final Long marcaId);
+    @Query("SELECT modelo FROM Modelo modelo WHERE modelo.marca.id = :id")
+    public List<Modelo> buscarModeloPorMarca(@Param("id") final Long marcaId);
 
     @Query("SELECT marca FROM Marca marca WHERE marca.nome = :nome")
-    public boolean verificaNome(@Param("nome")String nome);
+    public List<Marca> verificaNome(@Param("nome")String nome);
 
     @Transactional
     @Modifying

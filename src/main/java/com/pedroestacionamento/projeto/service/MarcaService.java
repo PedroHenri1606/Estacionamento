@@ -2,6 +2,7 @@ package com.pedroestacionamento.projeto.service;
 
 import com.pedroestacionamento.projeto.entity.Condutor;
 import com.pedroestacionamento.projeto.entity.Marca;
+import com.pedroestacionamento.projeto.entity.Modelo;
 import com.pedroestacionamento.projeto.entity.Movimentacao;
 import com.pedroestacionamento.projeto.repository.MarcaRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -17,15 +18,18 @@ public class MarcaService {
     private MarcaRepository repository;
 
     public Marca buscarPorId(Long id) {
-        if (repository.findById(id).isEmpty()) {
+        if(id == 0){
+            throw new RuntimeException(", por favor, informe um valor valido!");
+
+        }else if (repository.findById(id).isEmpty()) {
             throw new RuntimeException(", não foi possivel localizar a marca informada!");
 
-        } else {
+        }else {
             return repository.findById(id).orElse(null);
         }
     }
 
-    public List<Marca> listarCondutores() {
+    public List<Marca> listarMarca() {
         if (repository.findAll().isEmpty()) {
             throw new RuntimeException(", banco de dados não possui marcas cadastradas!");
 
@@ -45,28 +49,28 @@ public class MarcaService {
 
     public Marca salvar(Marca marca) {
 
-        if(marca.getAtivo() == null) {
-            throw new RuntimeException(", ativo não pode ser nulo, selecione uma opção");
+        if (marca.getAtivo() == null) {
+            throw new RuntimeException(", ativo não pode ser nulo, selecione uma opção!");
 
-        }else if(marca.getNome().isEmpty()) {
-            throw new RuntimeException(", nome não pode estar vazio!");
+        }else if (marca.getNome() == null){
+            throw new RuntimeException(", nome da marca é um campo obrigatorio!");
 
-        }else if(repository.verificaNome(marca.getNome())){
-            throw new RuntimeException(", nome digitado, já possui cadastro!");
+        }else if (marca.getNome().isBlank()) {
+            throw new RuntimeException(", nome vazio ou invalido!");
+
+        }else if(!repository.verificaNome(marca.getNome()).isEmpty()){
+            throw new RuntimeException(", nome da marca digitado, já possui cadastro!");
 
         }else{
             return repository.save(marca);
         }
     }
 
-    public void desativar(Long id){
+    public void desativar(Long id) {
         final Marca marca = this.buscarPorId(id);
 
-        if(marca== null) {
-            throw new RuntimeException(", não foi possivel localizar a marca informada!");
-
-        } else if(!marca.getAtivo()) {
-            throw new RuntimeException(", marca selecionada já esta desativado!");
+        if(!marca.getAtivo()) {
+            throw new RuntimeException(", marca selecionada já esta desativada!");
 
         } else {
             repository.desativar(id);
@@ -76,11 +80,8 @@ public class MarcaService {
     public void ativar(Long id){
         final Marca marca = this.buscarPorId(id);
 
-        if(marca == null) {
-            throw new RuntimeException(", não foi possivel localizar a marca informada!");
-
-        } else if(!marca.getAtivo()){
-            throw new RuntimeException(", marca selecionada já esta ativado!");
+        if(marca.getAtivo()){
+            throw new RuntimeException(", marca selecionada já esta ativada!");
 
         } else {
             repository.ativar(id);
@@ -91,7 +92,7 @@ public class MarcaService {
         final Marca marcaBanco = this.buscarPorId(id);
 
         if(marcaBanco == null || !marcaBanco.getId().equals(marcaNova.getId())){
-            throw new RuntimeException("não foi possivel indentificar o registro informado!");
+            throw new RuntimeException("não foi possivel indentificar a marca informada!;");
         }
             return this.salvar(marcaNova);
     }
@@ -99,17 +100,15 @@ public class MarcaService {
     public void deletar(Long id) {
         final Marca marcaBanco = this.buscarPorId(id);
 
-        if (marcaBanco == null) {
-            throw new RuntimeException(", não foi possivel identificar a marca informado!");
-        }
+        List<Modelo> modelos = this.repository.buscarModeloPorMarca(marcaBanco.getId());
 
-        List<Movimentacao> movimentacoes = this.repository.buscarModeloPorMarca(marcaBanco.getId());
-
-        if (movimentacoes.isEmpty()) {
+        if (modelos.isEmpty()) {
             this.repository.deleteById(marcaBanco.getId());
+
         } else {
             this.repository.desativar(marcaBanco.getId());
             throw new RuntimeException("marca possui modelos ativos, marca desativada!");
         }
     }
 }
+

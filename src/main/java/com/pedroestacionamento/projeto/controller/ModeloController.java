@@ -1,5 +1,6 @@
 package com.pedroestacionamento.projeto.controller;
 
+import com.pedroestacionamento.projeto.entity.Marca;
 import com.pedroestacionamento.projeto.entity.Modelo;
 import com.pedroestacionamento.projeto.service.ModeloService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,10 +34,13 @@ public class ModeloController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> buscarPorId(@PathVariable("id") final Long id){
-        final Modelo modelo = service.buscarPorId(id);
-        return modelo == null
-                ?ResponseEntity.badRequest().body("Nennhum modelo encontrado!")
-                :ResponseEntity.ok(modelo);
+        try {
+            final Modelo modelo = service.buscarPorId(id);
+            return ResponseEntity.ok(modelo);
+
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error " + e.getMessage());
+        }
     }
 
     @GetMapping("/listar")

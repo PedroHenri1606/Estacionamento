@@ -17,10 +17,13 @@ public class CondutorService {
     private CondutorRepository repository;
 
     public Condutor buscarPorId(Long id) {
-        if (repository.findById(id).isEmpty()) {
+        if (id == 0) {
+            throw new RuntimeException(", por favor, informe um valor valido!");
+
+        }else if (repository.findById(id).isEmpty()) {
             throw new RuntimeException(", não foi possivel localizar o condutor informado!");
 
-        } else {
+        }else {
             return repository.findById(id).orElse(null);
         }
     }
@@ -43,24 +46,32 @@ public class CondutorService {
         }
     }
 
+
+
     public Condutor salvar(Condutor condutor) {
 
-        if(condutor.getAtivo() == null) {
+        if (condutor.getAtivo() == null) {
             throw new RuntimeException(", ativo não pode ser nulo, selecione uma opção");
 
-        }else if(condutor.getNome().isEmpty()){
+        } else if (condutor.getNome().isEmpty()) {
             throw new RuntimeException(", nome não pode estar vazio!");
 
-        }else if(certificaCPFvalido(condutor.getCpf())) {
-            throw new RuntimeException(", CPF nulo ou invalido!");
+        }else if(condutor.getCpf() == null){
+            throw new RuntimeException(", CPF é um campo obrigatorio!");
 
-        }else if(repository.verificarCPF(condutor.getCpf())){
+        }else if(!certificaCPFvalido(condutor.getCpf())) {
+            throw new RuntimeException(", CPF invalido!");
+
+        }else if(!repository.verificarCPF(condutor.getCpf()).isEmpty()) {
             throw new RuntimeException(", CPF digitado, já possui cadastro!");
 
-        }else if(condutor.getTelefone().isEmpty()) {
-            throw new RuntimeException(", telefone não pode estar vazio!");
+        }else if(condutor.getTelefone() == null){
+            throw new RuntimeException(", telefone é um campo obrigatorio!");
 
-        }else if(repository.verificarTelefone(condutor.getTelefone())) {
+        }else if(!certificaTelefone(condutor.getTelefone())) {
+            throw new RuntimeException(", telefone invalido!");
+
+        }else if(!repository.verificarTelefone(condutor.getTelefone()).isEmpty()) {
             throw new RuntimeException(", telefone digitado, já possui cadastro!");
 
         }else if(condutor.getTempoPago() == null) {
@@ -77,10 +88,7 @@ public class CondutorService {
     public void desativar(Long id){
         final Condutor condutor = this.buscarPorId(id);
 
-        if(condutor == null) {
-         throw new RuntimeException(", não foi possivel localizar o condutor informado!");
-
-        } else if(!condutor.getAtivo()) {
+        if(!condutor.getAtivo()) {
             throw new RuntimeException(", condutor selecionado já esta desativado!");
 
         } else {
@@ -91,10 +99,7 @@ public class CondutorService {
     public void ativar(Long id){
         final Condutor condutor = this.buscarPorId(id);
 
-        if(condutor == null) {
-            throw new RuntimeException(", não foi possivel localizar o condutor informado!");
-
-        } else if(!condutor.getAtivo()){
+        if(condutor.getAtivo()){
             throw new RuntimeException(", condutor selecionado já esta ativado!");
 
         } else {
@@ -115,29 +120,37 @@ public class CondutorService {
     public void deletar(Long id){
         final Condutor condutorBanco = this.buscarPorId(id);
 
-        if(condutorBanco == null){
-            throw new RuntimeException(", não foi possivel identificar o condutor informado!");
-        }
-
         List<Movimentacao> movimentacoes = this.repository.buscarMovimentacaoPorCondutor(condutorBanco.getId());
 
-        if(movimentacoes.isEmpty()){
+        if (movimentacoes.isEmpty()) {
             this.repository.deleteById(condutorBanco.getId());
+
         } else {
             this.repository.desativar(condutorBanco.getId());
             throw new RuntimeException("condutor possui movimentações ativas, condutor desativado!");
         }
     }
 
+    public static boolean certificaTelefone(String telefone){
+        if (telefone.equals("00000000000") || telefone.equals("11111111111") || telefone.equals("22222222222") || telefone.equals("33333333333") ||
+            telefone.equals("44444444444") || telefone.equals("55555555555") || telefone.equals("66666666666") || telefone.equals("77777777777") ||
+            telefone.equals("88888888888") || telefone.equals("99999999999") || (telefone.length() != 11))
+            return(false);
+
+        telefone = telefone.replaceAll("[^0-9   ]","");
+
+        if(telefone.length() !=11){
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     public static boolean certificaCPFvalido(String CPF) {
         // considera-se erro CPF's formados por uma sequencia de numeros iguais
-        if (CPF.equals("00000000000") ||
-                CPF.equals("11111111111") ||
-                CPF.equals("22222222222") || CPF.equals("33333333333") ||
-                CPF.equals("44444444444") || CPF.equals("55555555555") ||
-                CPF.equals("66666666666") || CPF.equals("77777777777") ||
-                CPF.equals("88888888888") || CPF.equals("99999999999") ||
-                (CPF.length() != 11))
+        if(CPF.equals("00000000000") || CPF.equals("11111111111") || CPF.equals("22222222222") || CPF.equals("33333333333") ||
+           CPF.equals("44444444444") || CPF.equals("55555555555") || CPF.equals("66666666666") || CPF.equals("77777777777") ||
+           CPF.equals("88888888888") || CPF.equals("99999999999") || (CPF.length() != 11))
             return(false);
 
         char dig10, dig11;

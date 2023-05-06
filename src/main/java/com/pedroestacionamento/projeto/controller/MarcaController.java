@@ -27,11 +27,11 @@ public class MarcaController {
     @GetMapping("/{id}")
     public ResponseEntity<?> buscarPorId(@PathVariable("id") final Long id) {
         try {
-            final Marca marca = service.buscarMarcaPorId(id);
+            final Marca marca = service.buscarPorId(id);
             return ResponseEntity.ok(marca);
 
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Error ");
+            return ResponseEntity.badRequest().body("Error " + e.getMessage());
         }
     }
 
@@ -48,7 +48,7 @@ public class MarcaController {
     @GetMapping("/listarPorAtivo")
     public ResponseEntity<?> buscarPorAtivo() {
         try {
-            return ResponseEntity.ok(service.listarPorAtivo());
+            return ResponseEntity.ok(service.listarPorAtivos());
 
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error " +e.getMessage());

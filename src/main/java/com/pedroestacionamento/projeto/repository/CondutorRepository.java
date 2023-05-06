@@ -18,14 +18,14 @@ public interface CondutorRepository extends JpaRepository<Condutor, Long> {
     @Query("SELECT condutor FROM Condutor condutor WHERE condutor.ativo = true")
     public  List<Condutor> listarPorAtivo();
 
-    @Query("SELECT movimentacao FROM Movimentacao movimentacao WHERE condutor.id = :id")
+    @Query("SELECT movimentacao FROM Movimentacao movimentacao WHERE movimentacao.condutor.id = :id")
     public List<Movimentacao> buscarMovimentacaoPorCondutor(@Param("id") final Long condutorId);
 
     @Query("SELECT condutor FROM Condutor condutor WHERE condutor.cpf = :cpf")
-    public boolean verificarCPF(@Param("cpf") String cpf);
+    public List<Condutor> verificarCPF(@Param("cpf") String cpf);
 
     @Query("SELECT condutor FROM Condutor condutor WHERE condutor.telefone = :telefone")
-    public boolean verificarTelefone(@Param("telefone")String telefone);
+    public List<Condutor> verificarTelefone(@Param("telefone")String telefone);
 
     @Transactional
     @Modifying

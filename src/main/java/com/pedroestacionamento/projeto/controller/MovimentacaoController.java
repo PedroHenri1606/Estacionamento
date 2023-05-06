@@ -1,5 +1,6 @@
 package com.pedroestacionamento.projeto.controller;
 
+import com.pedroestacionamento.projeto.entity.Marca;
 import com.pedroestacionamento.projeto.entity.Movimentacao;
 import com.pedroestacionamento.projeto.service.MovimentacaoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,10 +71,13 @@ public class  MovimentacaoController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> buscarPorId(@PathVariable("id") final Long id){
-        final Movimentacao movimentacao = service.buscarMovimentacaoPorId(id);
-        return movimentacao == null
-                ?ResponseEntity.badRequest().body("Nennhuma movimentação encontrada!")
-                :ResponseEntity.ok(movimentacao);
+        try {
+            final Movimentacao movimentacao = service.buscarPorId(id);
+            return ResponseEntity.ok(movimentacao);
+
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error " + e.getMessage());
+        }
     }
 
     @GetMapping("/listar")

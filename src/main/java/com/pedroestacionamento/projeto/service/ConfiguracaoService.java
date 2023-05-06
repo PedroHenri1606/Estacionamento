@@ -2,7 +2,6 @@ package com.pedroestacionamento.projeto.service;
 
 import com.pedroestacionamento.projeto.entity.configuracao.Configuracao;
 import com.pedroestacionamento.projeto.repository.ConfiguracaoRepository;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +12,18 @@ public class ConfiguracaoService {
 
     @Autowired
     private ConfiguracaoRepository repository;
+
+    public Configuracao buscarPorId(Long id) {
+        if (id == 0) {
+            throw new RuntimeException(", por favor, informe um valor valido!");
+
+        } else if (repository.findById(id).isEmpty()) {
+            throw new RuntimeException(", não foi possivel localizar a configuração informada");
+
+        } else {
+            return repository.findById(id).orElse(null);
+        }
+    }
 
     public List<Configuracao> listarConfiguracoes(){
         if(repository.findAll().isEmpty()){
@@ -27,12 +38,14 @@ public class ConfiguracaoService {
         return repository.save(configuracao);
     }
 
-    public Configuracao editar(Long id, Configuracao configuracaoNova){
-        final Configuracao configuracaoBanco = this.repository.findById(id).orElse(null);
+    public Configuracao editar(Long id, Configuracao configuracaoNova) {
+        final Configuracao configuracaoBanco = this.buscarPorId(id);
 
-        if(configuracaoBanco == null || !configuracaoBanco.getId().equals(configuracaoNova.getId())){
+        if (configuracaoBanco == null || !configuracaoBanco.getId().equals(configuracaoNova.getId())) {
             throw new RuntimeException("Não foi possivel indentificar o registro informado");
-        }
+
+        } else {
             return repository.save(configuracaoNova);
+        }
     }
 }

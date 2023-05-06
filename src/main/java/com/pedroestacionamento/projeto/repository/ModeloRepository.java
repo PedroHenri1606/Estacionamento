@@ -2,6 +2,7 @@ package com.pedroestacionamento.projeto.repository;
 
 import com.pedroestacionamento.projeto.entity.Modelo;
 import com.pedroestacionamento.projeto.entity.Movimentacao;
+import com.pedroestacionamento.projeto.entity.Veiculo;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -17,8 +18,11 @@ public interface ModeloRepository extends JpaRepository<Modelo,Long> {
     @Query("SELECT modelo FROM Modelo modelo WHERE modelo.ativo = true")
     public List<Modelo> listarPorAtivo();
 
-    @Query("SELECT veiculo FROM Veiculo veiculo WHERE modelo.id = :id")
-    public List<Movimentacao> buscarVeiculoPorModelo(@Param("id") final Long modeloId);
+    @Query("SELECT veiculo FROM Veiculo veiculo WHERE veiculo.modelo.id = :id")
+    public List<Veiculo> buscarVeiculoPorModelo(@Param("id") final Long modeloId);
+
+    @Query("SELECT modelo FROM Modelo modelo WHERE modelo.nome = :nome")
+    public List<Modelo> verificaNome(@Param("nome")String nome);
 
     @Transactional
     @Modifying

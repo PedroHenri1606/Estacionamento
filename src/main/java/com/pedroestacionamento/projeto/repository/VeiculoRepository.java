@@ -17,8 +17,11 @@ public interface VeiculoRepository extends JpaRepository<Veiculo,Long> {
     @Query("SELECT veiculo FROM Veiculo veiculo WHERE veiculo.ativo = true")
     public List<Veiculo> listarPorAtivo();
 
-    @Query("SELECT movimentacao FROM Movimentacao movimentacao WHERE veiculo.id = :id")
+    @Query("SELECT movimentacao FROM Movimentacao movimentacao WHERE movimentacao.veiculo.id = :id")
     public List<Movimentacao> listarMovimentacaoPorVeiculo(@Param("id") final Long veiculoId);
+
+    @Query("SELECT veiculo FROM Veiculo veiculo WHERE veiculo.placa = :placa")
+    public List<Veiculo> verificarPlaca(@Param("placa")String placa);
 
     @Transactional
     @Modifying
