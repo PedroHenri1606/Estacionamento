@@ -18,17 +18,17 @@ import org.springframework.web.bind.annotation.*;
 public class CondutorController {
 
      /*
-        {
-        "id": 1,
-        "cadastro": "2023-05-01T22:33:44.206545",
-        "edicao": null,
-        "ativo": true,
-        "nome": "Pedro Henrique Vieira de Oliveira",
-        "cpf": "111.111.111-11",
-        "telefone": "45 998265476",
-        "tempoPago": "00:00:00",
-        "tempoDesconto": "00:00:00"
-        }
+            {
+            "id": 1,
+            "cadastro": "2023-05-01T22:33:44.206545",
+            "edicao": null,
+            "ativo": true,
+            "nome": "Pedro Henrique Vieira de Oliveira",
+            "cpf": "111.111.111-11",
+            "telefone": "45 998265476",
+            "tempoPago": "00:00:00",
+            "tempoDesconto": "00:00:00"
+            }
      */
 
     @Autowired

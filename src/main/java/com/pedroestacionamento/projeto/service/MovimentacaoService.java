@@ -83,4 +83,8 @@ public class MovimentacaoService {
         }
             return this.salvar(movimentacaoNova);
     }
+
+    public void finalizarMovimentacao(Long id){
+
+    }
 }

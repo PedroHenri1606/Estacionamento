@@ -55,14 +55,16 @@ public class  MovimentacaoController {
         },
         "entrada": "2023-05-01T08:00:00",
         "saida": "2023-05-01T18:00:00",
-        "tempo": "10:00:00",
-        "tempoDesconto": "00:00:00",
+
+        "tempo": "10:00:00",  --FEITA
+        "tempoDesconto": "01:00:00",
         "tempoMulta": "00:00:00",
-        "valorDesconto": 0.00,
+        "valorDesconto": 40.00,
         "valorMulta": 0.00,
-        "valorTotal": 100.00,
-        "valorHora": 10.00,
-        "valorHoraMulta": 0.00
+
+        "valorTotal": 280.00, --EFETUANDO
+        "valorHora": 40.00,  --EFETUANDO
+        "valorHoraMulta": 48.00  --EFETUANDO
     }
      */
 

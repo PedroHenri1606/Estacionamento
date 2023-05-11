@@ -18,9 +18,9 @@ public class ConfiguracaoController {
         "valorMinutoMulta": 0.80,
         "inicioExpediente": "08:00:00",
         "fimExpediente": "18:00:00",
-        "tempoParaDesconto": "00:00:00",
-        "tempoDeDesconto": "00:00:00",
-        "gerarDesconto": false,
+        "tempoParaDesconto": "01:00:00",
+        "tempoDeDesconto": "00:07:50",
+        "gerarDesconto": true,
         "vagasMoto": 15,
         "vagasCarro": 50,
         "vagasVan": 5
