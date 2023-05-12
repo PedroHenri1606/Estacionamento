@@ -12,19 +12,22 @@ import org.springframework.web.bind.annotation.*;
 public class ConfiguracaoController {
 
      /*
-        {
-        "ativo" : true,
+    {
+        "id": 1,
+        "cadastro": "2023-05-10T22:23:46.781581",
+        "edicao": "2023-05-11T22:07:57.551571",
+        "ativo": true,
         "valorHora": 40.00,
-        "valorMinutoMulta": 0.80,
+        "valorMinutoMulta": 1.00,
         "inicioExpediente": "08:00:00",
         "fimExpediente": "18:00:00",
         "tempoParaDesconto": "01:00:00",
-        "tempoDeDesconto": "00:07:50",
+        "tempoDeDesconto": "00:06:00",
         "gerarDesconto": true,
         "vagasMoto": 15,
         "vagasCarro": 50,
         "vagasVan": 5
-        }
+    }
      */
 
     @Autowired

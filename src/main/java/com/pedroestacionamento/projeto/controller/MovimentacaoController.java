@@ -57,14 +57,14 @@ public class  MovimentacaoController {
         "saida": "2023-05-01T18:00:00",
 
         "tempo": "10:00:00",  --FEITA
-        "tempoDesconto": "01:00:00",
-        "tempoMulta": "00:00:00",
-        "valorDesconto": 40.00,
-        "valorMulta": 0.00,
+        "tempoDesconto": "01:00:00",  --FEITA
+        "tempoMulta": "00:00:00",  --EFETUANDO
+        "valorDesconto": 40.00,  --FEITA
+        "valorMulta": 0.00,  --EFETUANDO
 
-        "valorTotal": 280.00, --EFETUANDO
-        "valorHora": 40.00,  --EFETUANDO
-        "valorHoraMulta": 48.00  --EFETUANDO
+        "valorTotal": 280.00, --FEITA
+        "valorHora": 40.00,  --FEITA
+        "valorHoraMulta": 48.00  --FEITA
     }
      */
 
@@ -114,6 +114,11 @@ public class  MovimentacaoController {
         catch (Exception e){
             return ResponseEntity.badRequest().body("Error " + e.getMessage());
         }
+    }
+
+    @PutMapping(value = "/finalizar")
+    public ResponseEntity<?> finalizar(@RequestParam("id")final Long id){
+       return ResponseEntity.ok(service.finalizarMovimentacao(id));
     }
 
     @PutMapping(value = "/desativar")
