@@ -121,14 +121,4 @@ public class  MovimentacaoController {
        return ResponseEntity.ok(service.finalizarMovimentacao(id));
     }
 
-    @PutMapping(value = "/desativar")
-    public ResponseEntity<?> desativar(@RequestParam final long id){
-        try {
-            service.desativar(id);
-            return ResponseEntity.ok("Registro desativado com sucesso!");
-
-        } catch (Exception e){
-            return ResponseEntity.badRequest().body("Error " + e.getMessage());
-        }
-    }
 }

@@ -92,11 +92,11 @@ public class MovimentacaoService {
         return this.salvar(movimentacaoNova);
     }
 
-    public Movimentacao finalizarMovimentacao(Long id) {
+    public String finalizarMovimentacao(Long id) {
 
         Movimentacao movimentacao = buscarPorId(id);
-        Configuracao configuracao = configuracaoService.buscarPorId(1L);
-        
+        Configuracao configuracao = configuracaoService.buscaUltimaConfiguracaoCadastrada();
+
         LocalDate dataInicial = LocalDate.from(movimentacao.getEntrada());   LocalTime horarioInicial = LocalTime.from(movimentacao.getEntrada());
         LocalDate dataFinal = LocalDate.from(movimentacao.getSaida());       LocalTime horarioFinal = LocalTime.from(movimentacao.getSaida());
 
@@ -198,8 +198,10 @@ public class MovimentacaoService {
         movimentacao.setTempoMulta(somaTempoMulta(id));
         movimentacao.setValorMulta(new BigDecimal(somaTempoMulta(id).getHour()).multiply(new BigDecimal(60)).add(new BigDecimal(somaTempoMulta(id).getMinute()).multiply(new BigDecimal(configuracao.getValorMinutoMulta().intValue()))));
         movimentacao.setValorTotal(new BigDecimal(configuracao.getValorHora().intValue()).multiply((new BigDecimal(horasAuxiliar).subtract(new BigDecimal(movimentacao.getTempoMulta().getHour())))).subtract(movimentacao.getValorDesconto()).add(movimentacao.getValorMulta()));
+        this.desativar(id);
+        this.salvar(movimentacao);
 
-        return movimentacao;
+        return movimentacao.toString();
         }
 
         public LocalTime somaTempoDesconto(int horaFinal){

@@ -34,6 +34,15 @@ public class ConfiguracaoService {
         }
     }
 
+    public Configuracao buscaUltimaConfiguracaoCadastrada(){
+        if(repository.findAll().isEmpty()){
+            throw new RuntimeException(", banco de dados não possui configuração cadastrada!");
+
+        } else {
+            return repository.buscaUltimaConfiguracaoCadastrada();
+        }
+    }
+
     public Configuracao salvar(Configuracao configuracao) {
         return repository.save(configuracao);
     }

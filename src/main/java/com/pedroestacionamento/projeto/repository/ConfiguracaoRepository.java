@@ -10,4 +10,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ConfiguracaoRepository extends JpaRepository<Configuracao,Long> {
+
+    @Query("SELECT configuracao1 FROM Configuracao configuracao1 WHERE configuracao1.id = (SELECT MAX(configuracao2.id) FROM Configuracao configuracao2)")
+    public Configuracao buscaUltimaConfiguracaoCadastrada();
 }
