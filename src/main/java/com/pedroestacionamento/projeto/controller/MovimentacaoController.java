@@ -58,9 +58,9 @@ public class  MovimentacaoController {
 
         "tempo": "10:00:00",  --FEITA
         "tempoDesconto": "01:00:00",  --FEITA
-        "tempoMulta": "00:00:00",  --EFETUANDO
+        "tempoMulta": "00:00:00",  --FEITA
         "valorDesconto": 40.00,  --FEITA
-        "valorMulta": 0.00,  --EFETUANDO
+        "valorMulta": 0.00,  --FEITA
 
         "valorTotal": 280.00, --FEITA
         "valorHora": 40.00,  --FEITA
