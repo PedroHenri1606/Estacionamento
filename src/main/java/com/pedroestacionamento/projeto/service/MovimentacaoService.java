@@ -93,11 +93,11 @@ public class MovimentacaoService {
     }
 
     public Movimentacao finalizarMovimentacao(Long id) {
+
         Movimentacao movimentacao = buscarPorId(id);
         Configuracao configuracao = configuracaoService.buscarPorId(1L);
-
+        
         LocalDate dataInicial = LocalDate.from(movimentacao.getEntrada());   LocalTime horarioInicial = LocalTime.from(movimentacao.getEntrada());
-
         LocalDate dataFinal = LocalDate.from(movimentacao.getSaida());       LocalTime horarioFinal = LocalTime.from(movimentacao.getSaida());
 
         int diaInicial = dataInicial.getDayOfMonth();         int horaInicial = horarioInicial.getHour();
@@ -191,44 +191,13 @@ public class MovimentacaoService {
         }
 
         movimentacao.setTempo(LocalTime.of(horasAuxiliar, minutosAuxiliar, segundosAuxiliar));
-
-        BigDecimal valorHora = new BigDecimal(String.valueOf(configuracao.getValorHora()));
-
         movimentacao.setValorHora(configuracao.getValorHora());
         movimentacao.setValorHoraMulta(configuracao.getValorMinutoMulta().multiply(new BigDecimal(60)));
-
         movimentacao.setTempoDesconto(somaTempoDesconto(horasAuxiliar));
         movimentacao.setValorDesconto(new BigDecimal(somaTempoDesconto(horasAuxiliar).getHour()).multiply(configuracao.getValorHora()));
-
-        int horaMulta = 0;
-        int minutoMulta = 0;
-        int segundoMulta = 0;
-
-        if(movimentacao.getSaida().getHour() > configuracao.getFimExpediente().getHour()) {
-            for (int i = configuracao.getFimExpediente().getHour(); i < movimentacao.getSaida().getHour(); i++) {
-                horaMulta += 1;
-            }
-        }
-
-        if(movimentacao.getSaida().getMinute() > configuracao.getFimExpediente().getMinute()) {
-            for (int i = configuracao.getFimExpediente().getMinute(); i < movimentacao.getSaida().getMinute(); i++) {
-                minutoMulta += 1;
-            }
-        }
-
-        if(movimentacao.getSaida().getSecond() > configuracao.getFimExpediente().getSecond()){
-            for (int i = configuracao.getFimExpediente().getSecond(); i < movimentacao.getSaida().getSecond(); i++){
-                segundoMulta +=1;
-            }
-        }
-
-        movimentacao.setTempoMulta(LocalTime.of(horaMulta,minutoMulta,segundoMulta));
-        movimentacao.setValorMulta(new BigDecimal(horaMulta).multiply(new BigDecimal(60))
-                                                            .add(new BigDecimal(minutoMulta).multiply(new BigDecimal(configuracao.getValorMinutoMulta().intValue()))));
-
-        int qtdHoras = horasAuxiliar - movimentacao.getTempoMulta().getHour();
-
-        movimentacao.setValorTotal(valorHora.multiply(new BigDecimal(qtdHoras)).subtract(movimentacao.getValorDesconto()).add(movimentacao.getValorMulta()));
+        movimentacao.setTempoMulta(somaTempoMulta(id));
+        movimentacao.setValorMulta(new BigDecimal(somaTempoMulta(id).getHour()).multiply(new BigDecimal(60)).add(new BigDecimal(somaTempoMulta(id).getMinute()).multiply(new BigDecimal(configuracao.getValorMinutoMulta().intValue()))));
+        movimentacao.setValorTotal(new BigDecimal(configuracao.getValorHora().intValue()).multiply((new BigDecimal(horasAuxiliar).subtract(new BigDecimal(movimentacao.getTempoMulta().getHour())))).subtract(movimentacao.getValorDesconto()).add(movimentacao.getValorMulta()));
 
         return movimentacao;
         }
@@ -260,6 +229,35 @@ public class MovimentacaoService {
                 }
             }
             return LocalTime.of(horaAuxiliar,minutoAuxiliar,segundoAuxiliar);
+        }
+
+        public LocalTime somaTempoMulta(Long id){
+            Configuracao configuracao = configuracaoService.buscarPorId(1L);
+            Movimentacao movimentacao = buscarPorId(id);
+
+            int horaMulta = 0;
+            int minutoMulta = 0;
+            int segundoMulta = 0;
+
+            if(movimentacao.getSaida().getHour() > configuracao.getFimExpediente().getHour()) {
+                for (int i = configuracao.getFimExpediente().getHour(); i < movimentacao.getSaida().getHour(); i++) {
+                    horaMulta += 1;
+                }
+            }
+
+            if(movimentacao.getSaida().getMinute() > configuracao.getFimExpediente().getMinute()) {
+                for (int i = configuracao.getFimExpediente().getMinute(); i < movimentacao.getSaida().getMinute(); i++) {
+                    minutoMulta += 1;
+                }
+            }
+
+            if(movimentacao.getSaida().getSecond() > configuracao.getFimExpediente().getSecond()){
+                for (int i = configuracao.getFimExpediente().getSecond(); i < movimentacao.getSaida().getSecond(); i++){
+                    segundoMulta +=1;
+                }
+            }
+
+            return LocalTime.of(horaMulta,minutoMulta,segundoMulta);
         }
     }
 
