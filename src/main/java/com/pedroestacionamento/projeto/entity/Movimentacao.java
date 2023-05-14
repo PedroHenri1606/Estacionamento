@@ -78,18 +78,31 @@ public class Movimentacao extends AbstractEntity {
     @Override
     public String toString() {
         return              ("---------------------------------------------" + "\n") +
-                            ("Entrada: " + this.getEntrada() + "\n") +
-                            ("Saida: " + this.getSaida() + "\n") +
+                            ("-    PARA FINS DE CONFERÊNCIA DO CLIENTE    -" + "\n") +
+                            ("---------------------------------------------" + "\n") +
+                            ("Entrada: " + this.getEntrada().getDayOfMonth() + "/" + this.getEntrada().getMonthValue() + "/" + this.getEntrada().getYear() + " | " + this.getEntrada().getHour() + ":" + this.getEntrada().getMinute() + ":" + this.getEntrada().getSecond()  + "\n") +
+                            ("Saida: " + this.getSaida().getDayOfMonth() + "/" + this.getSaida().getMonthValue() + "/" + this.getSaida().getYear() + " | " + this.getSaida().getHour() + ":" + this.getSaida().getMinute() + ":" + this.getSaida().getSecond()  + "\n") +
                             ("Condutor: " + this.getCondutor().getNome() + "\n") +
                             ("Veiculo: " + this.getVeiculo().getModelo().getNome() + " / Placa: " + this.getVeiculo().getPlaca() + "\n") +
                             ("---------------------------------------------" + "\n") +
+                            ("-             DADOS ARMAZENADOS             -" + "\n") +
+                            ("---------------------------------------------" + "\n") +
+                            ("Período armazenado: " + this.getCondutor().getTempoPago() + "\n") +
+                            ("Período de desconto armazenado: " + this.getCondutor().getTempoDesconto() + "\n") +
+                            ("---------------------------------------------" + "\n") +
                             ("Horas utilizadas: " + this.getTempo() + "\n") +
-                            ("Horas de desconto: " + this.getTempoDesconto() + "\n") +
-                            ("Valor horas utilizadas: " + this.getValorHora() + "\n") +
+                            ("Tempo de desconto: " + this.getTempoDesconto() + "\n") +
+                            ("Valor por hora utilizada: " + this.getValorHora() + "\n") +
                             ("Valor de desconto: " + this.getValorDesconto() + "\n") +
                             ("Valor multa por atraso: " + this.getValorMulta() + "\n") +
                             ("---------------------------------------------" + "\n") +
                             ("VALOR TOTAL: " + this.getValorTotal() + "\n") +
-                            ("---------------------------------------------");
+                            ("---------------------------------------------" + "\n") +
+                            ("- *PERÍODOS DE DESCONTO MENORES QUE 1 HORA* -" + "\n") +
+                            ("-   *SERÃO ARMAZENADOS ATÉ ATINGIR 1 HORA*  -" + "\n") +
+                            ("---------------------------------------------" + "\n") +
+                            ("-       *PERÍODOS MENORES QUE 1 HORA*       -" + "\n") +
+                            ("-   *SERÃO ARMAZENADOS ATÉ ATINGIR 1 HORA*  -" + "\n") +
+                            ("---------------------------------------------" + "\n");
     }
 }
