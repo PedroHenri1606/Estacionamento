@@ -113,7 +113,7 @@ public class CondutorService {
         if(condutorBanco == null || !condutorBanco.getId().equals(condutorNovo.getId())){
             throw new RuntimeException("não foi possivel identificar o condutor informado!");
         }
-            return this.salvar(condutorNovo);
+            return repository.save(condutorNovo);
     }
 
 
