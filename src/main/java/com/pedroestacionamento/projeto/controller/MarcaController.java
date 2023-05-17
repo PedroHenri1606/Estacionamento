@@ -2,12 +2,19 @@ package com.pedroestacionamento.projeto.controller;
 
 import com.pedroestacionamento.projeto.entity.Marca;
 import com.pedroestacionamento.projeto.service.MarcaService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
+import java.util.HashMap;
+import java.util.Map;
+
+@RestController
 @RequestMapping(value = "/api/marca")
 public class MarcaController {
 
@@ -56,27 +63,15 @@ public class MarcaController {
     }
 
     @PostMapping
-    public ResponseEntity<?> cadastrar(@RequestBody final Marca marca) {
-        try {
+    public ResponseEntity<?> cadastrar(@Valid @RequestBody final Marca marca) {
             service.salvar(marca);
             return ResponseEntity.ok("Registro cadastrado com Sucesso");
-
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Error " + e.getMessage());
-        }
     }
 
     @PutMapping(value = "/editar")
-    public ResponseEntity<?> editar(
-            @RequestParam("id") final Long id,
-            @RequestBody final Marca marca) {
-        try {
+    public ResponseEntity<?> editar(@Valid @RequestParam("id") final Long id, @RequestBody final Marca marca) {
             service.editar(id,marca);
             return ResponseEntity.ok("Registro atualizado com Sucesso");
-
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Error " +e.getMessage());
-        }
     }
 
     @PutMapping(value = "/desativar")
@@ -111,5 +106,20 @@ public class MarcaController {
         } catch (Exception e){
             return ResponseEntity.badRequest().body("Error " +e.getMessage());
         }
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public Map<String,String> handleValidationException(MethodArgumentNotValidException ex){
+        Map<String,String> errors = new HashMap<>();
+
+        ex.getBindingResult().getAllErrors().forEach((error) -> {
+            String fieldName = ((FieldError) error).getField();
+            String errorMessage = error.getDefaultMessage();
+
+            errors.put(fieldName,errorMessage);
+        });
+
+        return errors;
     }
 }

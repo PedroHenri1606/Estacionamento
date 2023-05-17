@@ -50,39 +50,7 @@ public class CondutorService {
 
     public Condutor salvar(Condutor condutor) {
 
-        if (condutor.getAtivo() == null) {
-            throw new RuntimeException(", ativo não pode ser nulo, selecione uma opção");
-
-        } else if (condutor.getNome().isEmpty()) {
-            throw new RuntimeException(", nome não pode estar vazio!");
-
-        }else if(condutor.getCpf() == null){
-            throw new RuntimeException(", CPF é um campo obrigatorio!");
-
-        }else if(!certificaCPFvalido(condutor.getCpf())) {
-            throw new RuntimeException(", CPF invalido!");
-
-        }else if(!repository.verificarCPF(condutor.getCpf()).isEmpty()) {
-            throw new RuntimeException(", CPF digitado, já possui cadastro!");
-
-        }else if(condutor.getTelefone() == null){
-            throw new RuntimeException(", telefone é um campo obrigatorio!");
-
-        }else if(!certificaTelefone(condutor.getTelefone())) {
-            throw new RuntimeException(", telefone invalido!");
-
-        }else if(!repository.verificarTelefone(condutor.getTelefone()).isEmpty()) {
-            throw new RuntimeException(", telefone digitado, já possui cadastro!");
-
-        }else if(condutor.getTempoPago() == null) {
-            throw new RuntimeException(", tempo pago não pode ser nulo, informe 00:00:00 caso não queira atribuir valores");
-
-        }else if(condutor.getTempoDesconto() == null) {
-            throw new RuntimeException(", tempo de desconto não pode ser nulo, informe 00:00:00 caso não queira atribuir valores");
-
-        }else{
             return repository.save(condutor);
-        }
     }
 
     public void desativar(Long id){
@@ -137,7 +105,7 @@ public class CondutorService {
             telefone.equals("88888888888") || telefone.equals("99999999999") || (telefone.length() != 11))
             return(false);
 
-        telefone = telefone.replaceAll("[^0-9   ]","");
+        telefone = telefone.replaceAll("[^0-9]","");
 
         if(telefone.length() !=11){
             return false;

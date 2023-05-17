@@ -4,11 +4,17 @@ import com.pedroestacionamento.projeto.entity.Marca;
 import com.pedroestacionamento.projeto.entity.Movimentacao;
 import com.pedroestacionamento.projeto.service.MovimentacaoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
+import java.util.HashMap;
+import java.util.Map;
+
+@RestController
 @RequestMapping(value = "/api/movimentacao")
 public class  MovimentacaoController {
 
@@ -94,13 +100,9 @@ public class  MovimentacaoController {
 
     @PostMapping
     public ResponseEntity<?> cadastrar(@RequestBody final Movimentacao movimentacao){
-        try {
             service.salvar(movimentacao);
             return ResponseEntity.ok("Registro cadastrado com sucesso!");
 
-        } catch (Exception e){
-            return ResponseEntity.badRequest().body("Error " + e.getMessage());
-        }
     }
 
     @PutMapping(value = "/editar")
@@ -135,5 +137,20 @@ public class  MovimentacaoController {
         catch (Exception e){
             return ResponseEntity.badRequest().body("Error " + e.getMessage());
         }
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public Map<String,String> handleValidationException(MethodArgumentNotValidException ex){
+        Map<String,String> errors = new HashMap<>();
+
+        ex.getBindingResult().getAllErrors().forEach((error) -> {
+            String fieldName = ((FieldError) error).getField();
+            String errorMessage = error.getDefaultMessage();
+
+            errors.put(fieldName,errorMessage);
+        });
+
+        return errors;
     }
 }

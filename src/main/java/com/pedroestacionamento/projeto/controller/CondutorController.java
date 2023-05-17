@@ -2,18 +2,18 @@ package com.pedroestacionamento.projeto.controller;
 
 import com.pedroestacionamento.projeto.entity.Condutor;
 import com.pedroestacionamento.projeto.service.CondutorService;
-import jakarta.persistence.EntityExistsException;
-import jakarta.persistence.EntityNotFoundException;
-import jakarta.validation.constraints.NotNull;
-import org.hibernate.validator.internal.constraintvalidators.bv.NotNullValidator;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.util.Assert;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
+import java.util.HashMap;
+import java.util.Map;
+
+@RestController
 @RequestMapping(value = "/api/condutor")
 public class CondutorController {
 
@@ -66,28 +66,15 @@ public class CondutorController {
     }
 
     @PostMapping
-    public ResponseEntity<?> cadastrar(@RequestBody final Condutor condutor){
-        try {
-            service.salvar(condutor);
-            return ResponseEntity.ok("Registro cadastrado com sucesso!");
-
-        } catch (Exception e){
-            return ResponseEntity.badRequest().body("Error " + e.getMessage());
-        }
+    public ResponseEntity<?> cadastrar(@Valid @RequestBody final Condutor condutor){
+        return ResponseEntity.ok(service.salvar(condutor));
     }
+
     @PutMapping(value = "/editar")
-    public ResponseEntity<?> editar(
-            @RequestParam("id") final Long id,
-            @RequestBody final Condutor condutorNovo){
-        try {
+    public ResponseEntity<?> editar(@Valid @RequestParam("id") final Long id, @RequestBody final Condutor condutorNovo){
             service.editar(id,condutorNovo);
             return ResponseEntity.ok("Registro atualizado com sucesso!");
-
-        } catch (Exception e){
-            return ResponseEntity.badRequest().body("Error " + e.getMessage());
-        }
     }
-
 
     @PutMapping(value = "/desativar")
     public ResponseEntity<?> desativar(@RequestParam("id") final Long id){
@@ -121,5 +108,20 @@ public class CondutorController {
         } catch (Exception e){
             return ResponseEntity.badRequest().body("Error " + e.getMessage());
         }
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public Map<String,String> handleValidationException(MethodArgumentNotValidException ex){
+        Map<String,String> errors = new HashMap<>();
+
+        ex.getBindingResult().getAllErrors().forEach((error) -> {
+            String fieldName = ((FieldError) error).getField();
+            String errorMessage = error.getDefaultMessage();
+
+            errors.put(fieldName,errorMessage);
+        });
+
+        return errors;
     }
 }

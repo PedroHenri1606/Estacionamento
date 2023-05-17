@@ -3,41 +3,55 @@ package com.pedroestacionamento.projeto.entity;
 import com.pedroestacionamento.projeto.entity.abstractEntity.AbstractEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
+import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.envers.AuditTable;
 import org.hibernate.envers.Audited;
+import org.hibernate.validator.constraints.br.CPF;
 
 import java.time.LocalTime;
 
 @Entity
 @Table(name = "tb_condutor", schema = "public")
 @NoArgsConstructor
-@AllArgsConstructor
 @Audited
 @AuditTable(value = "tb_condutores_audit", schema = "audit")
 public class Condutor extends AbstractEntity {
 
     @Getter @Setter
+    @NotBlank(message = "Nome do condutor é um campo obrigatorio!")
+    @Size(min = 3,max = 50, message = "O nome deve ter no mínimo 3 e no máximo 50 caracteres!")
     @Column(name = "nome", nullable = false, length = 50)
     private String nome;
 
     @Getter @Setter
+    @CPF(message = "CPF informado não é valido!")
+    @NotBlank(message = "CPF do condutor é um campo obrigatorio!")
     @Column(name = "cpf", nullable = false, unique = true, length = 15)
     private String cpf;
 
     @Getter @Setter
+    @NotBlank(message = "Telefone do condutor é um campo obrigatorio!")
+    //AQUI TERIA UMA ANOTAÇÃO @TELEFONE CRIADA NA PACKAGE VALIDATION
     @Column(name = "telefone", nullable = false, unique = true, length = 17)
     private String telefone;
 
     @Getter @Setter
-    @Column(name = "tempo_gasto", nullable = false)
+    @Column(name = "tempo_gasto")
     private LocalTime tempoPago;
 
     @Getter @Setter
-    @Column(name = "tempo_desconto", nullable = false)
+    @Column(name = "tempo_desconto")
     private LocalTime tempoDesconto;
+
+    //TESTE - 17/5/2023
+    @PrePersist
+    public void prePersist(){
+        this.setTempoPago(LocalTime.of(0,0,0));
+        this.setTempoDesconto(LocalTime.of(0,0,0));
+    }
 }

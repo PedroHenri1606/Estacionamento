@@ -4,6 +4,7 @@ import com.pedroestacionamento.projeto.entity.abstractEntity.AbstractEntity;
 import com.pedroestacionamento.projeto.entity.configuracao.Configuracao;
 import com.pedroestacionamento.projeto.service.ConfiguracaoService;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,11 +28,13 @@ public class Movimentacao extends AbstractEntity {
 
     @ManyToOne
     @Getter @Setter
+    @NotBlank(message = "Veiculo é um campo obrigatorio!")
     @JoinColumn(name = "veiculos_id", nullable = false)
     private Veiculo veiculo;
 
     @ManyToOne
     @Getter @Setter
+    @NotBlank(message = "Condutor é um campo obrigatorio!")
     @JoinColumn(name = "condutores_id", nullable = false)
     private Condutor condutor;
 
@@ -74,6 +77,11 @@ public class Movimentacao extends AbstractEntity {
     @Getter @Setter
     @Column(name = "valor_hora_multa")
     private BigDecimal valorHoraMulta;
+
+    @PrePersist
+    public void prePersist(){
+        this.setEntrada(LocalDateTime.now());
+    }
 
     @Override
     public String toString() {

@@ -3,12 +3,19 @@ package com.pedroestacionamento.projeto.controller;
 import com.pedroestacionamento.projeto.entity.Marca;
 import com.pedroestacionamento.projeto.entity.Modelo;
 import com.pedroestacionamento.projeto.service.ModeloService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
+import java.util.HashMap;
+import java.util.Map;
+
+@RestController
 @RequestMapping(value = "/api/modelo")
 public class ModeloController {
 
@@ -64,27 +71,15 @@ public class ModeloController {
     }
 
     @PostMapping
-    public ResponseEntity<?> cadastrar(@RequestBody final Modelo modelo){
-        try {
+    public ResponseEntity<?> cadastrar(@Valid @RequestBody final Modelo modelo){
             service.salvar(modelo);
             return ResponseEntity.ok("Registro cadastrado com sucesso!");
-
-        } catch (Exception e){
-            return ResponseEntity.badRequest().body("Error " + e.getMessage());
-        }
     }
 
     @PutMapping(value = "/editar")
-    public ResponseEntity<?> editar(
-                @RequestParam("id") final Long id,
-                @RequestBody final Modelo modelo){
-        try {
+    public ResponseEntity<?> editar(@Valid @RequestParam("id") final Long id, @RequestBody final Modelo modelo){
             service.editar(id,modelo);
             return ResponseEntity.ok("Registro atualizado com sucesso!");
-
-        } catch (Exception e){
-            return ResponseEntity.badRequest().body("Error " + e.getMessage());
-        }
     }
 
     @PutMapping(value = "/desativar")
@@ -118,5 +113,20 @@ public class ModeloController {
         } catch (Exception e){
             return ResponseEntity.badRequest().body("Error " + e.getMessage());
         }
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public Map<String,String> handleValidationException(MethodArgumentNotValidException ex){
+        Map<String,String> errors = new HashMap<>();
+
+        ex.getBindingResult().getAllErrors().forEach((error) -> {
+            String fieldName = ((FieldError) error).getField();
+            String errorMessage = error.getDefaultMessage();
+
+            errors.put(fieldName,errorMessage);
+        });
+
+        return errors;
     }
 }
