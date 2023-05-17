@@ -5,6 +5,7 @@ import com.pedroestacionamento.projeto.entity.configuracao.Configuracao;
 import com.pedroestacionamento.projeto.service.ConfiguracaoService;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,13 +29,13 @@ public class Movimentacao extends AbstractEntity {
 
     @ManyToOne
     @Getter @Setter
-    @NotBlank(message = "Veiculo é um campo obrigatorio!")
+    @NotNull(message = "Veiculo é um campo obrigatorio!")
     @JoinColumn(name = "veiculos_id", nullable = false)
     private Veiculo veiculo;
 
     @ManyToOne
     @Getter @Setter
-    @NotBlank(message = "Condutor é um campo obrigatorio!")
+    @NotNull(message = "Condutor é um campo obrigatorio!")
     @JoinColumn(name = "condutores_id", nullable = false)
     private Condutor condutor;
 

@@ -48,22 +48,7 @@ public class MarcaService {
     }
 
     public Marca salvar(Marca marca) {
-
-        if (marca.getAtivo() == null) {
-            throw new RuntimeException(", ativo não pode ser nulo, selecione uma opção!");
-
-        }else if (marca.getNome() == null){
-            throw new RuntimeException(", nome da marca é um campo obrigatorio!");
-
-        }else if (marca.getNome().isBlank()) {
-            throw new RuntimeException(", nome vazio ou invalido!");
-
-        }else if(!repository.verificaNome(marca.getNome()).isEmpty()){
-            throw new RuntimeException(", nome da marca digitado, já possui cadastro!");
-
-        }else{
             return repository.save(marca);
-        }
     }
 
     public void desativar(Long id) {

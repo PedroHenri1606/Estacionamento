@@ -3,6 +3,7 @@ package com.pedroestacionamento.projeto.entity;
 import com.pedroestacionamento.projeto.entity.abstractEntity.AbstractEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,7 +28,7 @@ public class Modelo extends AbstractEntity {
 
     @Getter @Setter
     @ManyToOne
-    @NotBlank(message = "Marca é um campo obrigatorio!")
+    @NotNull(message = "Marca é um campo obrigatorio!")
     @JoinColumn(name = "marca_id", nullable = false)
     private Marca marca;
 

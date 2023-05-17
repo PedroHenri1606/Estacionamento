@@ -47,25 +47,7 @@ public class ModeloService {
     }
 
     public Modelo salvar(Modelo modelo) {
-
-        if (modelo.getAtivo() == null) {
-            throw new RuntimeException(", ativo não pode ser vazio, selecione uma opção!");
-
-        }else if(modelo.getNome() == null){
-            throw new RuntimeException(", nome do modelo é um campo obrigatorio!");
-
-        }else if (modelo.getNome().isBlank()) {
-            throw new RuntimeException(", nome vazio ou invalido!");
-
-        } else if (!repository.verificaNome(modelo.getNome()).isEmpty()) {
-            throw new RuntimeException(", nome do modelo digitado, já possui cadastro!");
-
-        } else if (modelo.getMarca() == null) {
-            throw new RuntimeException(", marca não pode ser vazia, selecione uma opção!");
-
-        } else {
             return repository.save(modelo);
-        }
     }
 
     public void desativar(Long id){

@@ -5,6 +5,7 @@ import com.pedroestacionamento.projeto.entity.enums.Cor;
 import com.pedroestacionamento.projeto.entity.enums.TipoVeiculo;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,19 +29,19 @@ public class Veiculo extends AbstractEntity {
 
     @ManyToOne
     @Getter @Setter
-    @NotBlank(message = "Modelo é um campo obrigatorio!")
+    @NotNull(message = "Modelo é um campo obrigatorio!")
     @JoinColumn(name = "modelo_id", nullable = false)
     private Modelo modelo;
 
     @Enumerated(EnumType.STRING)
     @Getter @Setter
-    @NotBlank(message = "Cor do veículo é um campo obrigatorio!")
+    @NotNull(message = "Cor do veículo é um campo obrigatorio!")
     @Column(name = "cor", length = 20, nullable = false)
     private Cor cor;
 
     @Enumerated(EnumType.STRING)
     @Getter @Setter
-    @NotBlank(message = "Tipo do veículo é um campo obrigatorio!")
+    @NotNull(message = "Tipo do veículo é um campo obrigatorio!")
     @Column(name = "tipo_veiculo", length = 20, nullable = false)
     private TipoVeiculo tipoVeiculo;
 

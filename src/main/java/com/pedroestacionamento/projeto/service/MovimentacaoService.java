@@ -58,22 +58,7 @@ public class MovimentacaoService {
     }
 
     public Movimentacao salvar(Movimentacao movimentacao) {
-
-        if (movimentacao.getAtivo() == null) {
-            throw new RuntimeException(", ativo não pode ser vazio, selecione uma opção!");
-
-        } else if (movimentacao.getVeiculo() == null) {
-            throw new RuntimeException(", veiculo é um campo obrigatorio!");
-
-        } else if (movimentacao.getCondutor() == null) {
-            throw new RuntimeException(", condutor é um campo obrigatorio!");
-
-        } else if (movimentacao.getEntrada() == null) {
-            throw new RuntimeException(", hora de entrega não pode ser nula");
-
-        } else {
             return repository.save(movimentacao);
-        }
     }
 
     public void desativar(Long id) {

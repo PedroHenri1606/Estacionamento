@@ -44,37 +44,7 @@ public class ConfiguracaoService {
     }
 
     public Configuracao salvar(Configuracao configuracao) {
-
-        if (configuracao.getValorHora() == null) {
-            throw new RuntimeException(", valor pora hora não pode estar vazio!");
-        }
-        if (configuracao.getValorMinutoMulta() == null) {
-            throw new RuntimeException(", valor da multa por minuto não pode estar vazio!");
-        }
-        if (configuracao.getInicioExpediente() == null) {
-            throw new RuntimeException(", horario de inicio de expediente não pode estar vazio!");
-        }
-        if (configuracao.getFimExpediente() == null) {
-            throw new RuntimeException(", horario de fim de expediente não pode estar vazio!");
-        }
-        if (configuracao.getTempoDeDesconto() == null) {
-            throw new RuntimeException(", horario de tempo para desconto não pode estar vazio!");
-        }
-        if (configuracao.getGerarDesconto() == null) {
-            throw new RuntimeException(", opção de gerar desconto não pode estar vazio!");
-        }
-        if (configuracao.getVagasCarro() == null) {
-            throw new RuntimeException(", quantidade de vagas de carro não pode estar vazio!");
-        }
-        if (configuracao.getVagasMoto() == null) {
-            throw new RuntimeException(", quantidade de vagas de moto não pode estar vazio!");
-        }
-        if (configuracao.getVagasVan() == null) {
-            throw new RuntimeException(", quantidade de vagas de van não pode estar vazio!");
-
-        } else {
             return repository.save(configuracao);
-        }
     }
 
     public Configuracao editar(Long id, Configuracao configuracaoNova) {

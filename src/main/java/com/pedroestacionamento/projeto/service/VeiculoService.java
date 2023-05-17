@@ -47,34 +47,7 @@ public class VeiculoService {
     }
 
     public Veiculo salvar(Veiculo veiculo) {
-
-        if (veiculo.getAtivo() == null) {
-            throw new RuntimeException(", ativo não pode ser vazio, selecione uma opção!");
-
-        } else if (veiculo.getPlaca() == null) {
-            throw new RuntimeException(", placa é um campo obrigatorio!");
-
-        } else if (veiculo.getPlaca().isBlank()) {
-            throw new RuntimeException(", placa invalida!");
-
-        } else if (!repository.verificarPlaca(veiculo.getPlaca()).isEmpty()) {
-            throw new RuntimeException(", placa digitada já esta cadastrada!");
-
-        } else if (veiculo.getModelo() == null) {
-            throw new RuntimeException(", modelo do veiculo é um campo obrigatorio!");
-
-        } else if (veiculo.getCor() == null) {
-            throw new RuntimeException(", cor do veiculo é um campo obrigatorio!");
-
-        } else if (veiculo.getTipoVeiculo() == null) {
-            throw new RuntimeException(", tipo do veiculo é um campo obrigatorio!");
-
-        } else if (veiculo.getAno() < 1940) {
-            throw new RuntimeException(", ano do veiculo é um campo obrigatorio!");
-
-        } else {
             return repository.save(veiculo);
-        }
     }
 
     public void desativar(Long id){
