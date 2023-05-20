@@ -57,7 +57,12 @@ public class ConfiguracaoController {
     }
     @PutMapping(value = "/editar")
         private ResponseEntity<?> editar(@Valid @RequestParam("id") final Long id,@RequestBody final Configuracao configuracao){
+        try{
             service.editar(id,configuracao);
-            return ResponseEntity.ok("Registro atualizado com sucesso!");
+            return ResponseEntity.ok("Registro editado com sucesso!");
+
+        } catch (Exception e){
+            return ResponseEntity.badRequest().body("Error " + e.getMessage());
+        }
     }
 }

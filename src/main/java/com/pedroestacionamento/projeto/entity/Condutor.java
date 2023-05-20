@@ -1,6 +1,8 @@
 package com.pedroestacionamento.projeto.entity;
 
 import com.pedroestacionamento.projeto.entity.abstractEntity.AbstractEntity;
+import com.pedroestacionamento.projeto.validation.constraints.CPF;
+import com.pedroestacionamento.projeto.validation.constraints.Telefone;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.PrePersist;
@@ -11,7 +13,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.envers.AuditTable;
 import org.hibernate.envers.Audited;
-import org.hibernate.validator.constraints.br.CPF;
 
 import java.time.LocalTime;
 
@@ -36,7 +37,7 @@ public class Condutor extends AbstractEntity {
 
     @Getter @Setter
     @NotBlank(message = "Telefone do condutor é um campo obrigatorio!")
-    //AQUI TERIA UMA ANOTAÇÃO @TELEFONE CRIADA NA PACKAGE VALIDATION
+    @Telefone(message = "Telefone informado é inválido!")
     @Column(name = "telefone", nullable = false, unique = true, length = 17)
     private String telefone;
 
@@ -48,7 +49,6 @@ public class Condutor extends AbstractEntity {
     @Column(name = "tempo_desconto")
     private LocalTime tempoDesconto;
 
-    //TESTE - 17/5/2023
     @PrePersist
     public void prePersist(){
         this.setTempoPago(LocalTime.of(0,0,0));

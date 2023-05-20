@@ -72,8 +72,13 @@ public class CondutorController {
 
     @PutMapping(value = "/editar")
     public ResponseEntity<?> editar(@Valid @RequestParam("id") final Long id, @RequestBody final Condutor condutorNovo){
+        try{
             service.editar(id,condutorNovo);
-            return ResponseEntity.ok("Registro atualizado com sucesso!");
+            return ResponseEntity.ok("Registro editado com sucesso!");
+
+        } catch (Exception e){
+            return ResponseEntity.badRequest().body("Error " + e.getMessage());
+        }
     }
 
     @PutMapping(value = "/desativar")

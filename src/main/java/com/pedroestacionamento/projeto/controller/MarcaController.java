@@ -70,8 +70,13 @@ public class MarcaController {
 
     @PutMapping(value = "/editar")
     public ResponseEntity<?> editar(@Valid @RequestParam("id") final Long id, @RequestBody final Marca marca) {
+        try{
             service.editar(id,marca);
-            return ResponseEntity.ok("Registro atualizado com Sucesso");
+            return ResponseEntity.ok("Registro editado com sucesso!");
+
+        } catch (Exception e){
+            return ResponseEntity.badRequest().body("Error " + e.getMessage());
+        }
     }
 
     @PutMapping(value = "/desativar")

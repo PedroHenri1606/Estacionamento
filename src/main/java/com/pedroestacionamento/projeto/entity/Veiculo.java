@@ -3,7 +3,9 @@ package com.pedroestacionamento.projeto.entity;
 import com.pedroestacionamento.projeto.entity.abstractEntity.AbstractEntity;
 import com.pedroestacionamento.projeto.entity.enums.Cor;
 import com.pedroestacionamento.projeto.entity.enums.TipoVeiculo;
+import com.pedroestacionamento.projeto.validation.constraints.PlacaCarro;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -23,7 +25,7 @@ public class Veiculo extends AbstractEntity {
 
     @Getter @Setter
     @NotBlank(message = "Placa do veículo é um campo obrigatorio!")
-    //AQUI TERIA UMA ANOTAÇÃO @PLACA NA PACKAGE VALIDATION
+    @PlacaCarro(message = "Placa do veículo inválida!")
     @Column(name = "placa", length = 10, nullable = false,unique = true)
     private String placa;
 
@@ -46,7 +48,8 @@ public class Veiculo extends AbstractEntity {
     private TipoVeiculo tipoVeiculo;
 
     @Getter @Setter
-    @NotBlank(message = "Ano do veículo é um campo obrigatorio!")
+    @NotNull(message = "Ano do veículo é um campo obrigatorio!")
+    @Min(value = 1930, message = "Ano do veículo inválido!")
     @Column(name = "ano", nullable = false)
     private int ano;
 

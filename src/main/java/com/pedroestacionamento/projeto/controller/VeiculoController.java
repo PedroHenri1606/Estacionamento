@@ -3,6 +3,7 @@ package com.pedroestacionamento.projeto.controller;
 import com.pedroestacionamento.projeto.entity.Marca;
 import com.pedroestacionamento.projeto.entity.Veiculo;
 import com.pedroestacionamento.projeto.service.VeiculoService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -80,25 +81,18 @@ public class VeiculoController {
     }
 
     @PostMapping
-    public ResponseEntity<?> cadastrar(@RequestBody final Veiculo veiculo){
-        try {
+    public ResponseEntity<?> cadastrar(@Valid @RequestBody final Veiculo veiculo){
             service.salvar(veiculo);
             return ResponseEntity.ok("Registro cadastrado com sucesso!");
-
-        } catch (Exception e){
-            return ResponseEntity.badRequest().body("Error " + e.getMessage());
-        }
     }
 
     @PutMapping(value = "/editar")
-        private ResponseEntity<?> editar(
-                @PathVariable("id") final Long id,
-                @RequestBody final Veiculo veiculo){
-        try {
+        private ResponseEntity<?> editar(@Valid @PathVariable("id") final Long id, @RequestBody final Veiculo veiculo){
+        try{
             service.editar(id,veiculo);
-            return ResponseEntity.ok("Registro atualizado com sucesso!");
-        }
-        catch (Exception e){
+            return ResponseEntity.ok("Registro editado com sucesso!");
+
+        } catch (Exception e){
             return ResponseEntity.badRequest().body("Error " + e.getMessage());
         }
     }
