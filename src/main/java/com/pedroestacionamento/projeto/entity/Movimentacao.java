@@ -1,10 +1,7 @@
 package com.pedroestacionamento.projeto.entity;
 
 import com.pedroestacionamento.projeto.entity.abstractEntity.AbstractEntity;
-import com.pedroestacionamento.projeto.entity.configuracao.Configuracao;
-import com.pedroestacionamento.projeto.service.ConfiguracaoService;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,8 +9,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.envers.AuditTable;
 import org.hibernate.envers.Audited;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

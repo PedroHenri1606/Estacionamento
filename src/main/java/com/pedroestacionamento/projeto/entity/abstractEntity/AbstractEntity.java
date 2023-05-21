@@ -1,6 +1,7 @@
 package com.pedroestacionamento.projeto.entity.abstractEntity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,6 +25,7 @@ public abstract class AbstractEntity {
     private LocalDateTime edicao;
 
     @Getter @Setter
+    @NotNull(message = "Ativo é um campo obrigatorio!")
     @Column(name = "ativo", nullable = false)
     private Boolean ativo;
 

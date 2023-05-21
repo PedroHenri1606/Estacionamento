@@ -5,9 +5,7 @@ import com.pedroestacionamento.projeto.entity.Movimentacao;
 import com.pedroestacionamento.projeto.repository.CondutorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 
-import java.beans.Transient;
 import java.util.List;
 
 @Service
@@ -47,10 +45,16 @@ public class CondutorService {
     }
 
 
-
     public Condutor salvar(Condutor condutor) {
+        if (!repository.verificarCPF(condutor.getCpf()).isEmpty()) {
+            throw new RuntimeException(", condutor informado já esta cadastrado!");
 
+        } else if(!repository.verificarTelefone(condutor.getTelefone()).isEmpty()){
+            throw new RuntimeException(", telefone informado já cadastrado para outro condutor!");
+
+        } else {
             return repository.save(condutor);
+        }
     }
 
     public void desativar(Long id){

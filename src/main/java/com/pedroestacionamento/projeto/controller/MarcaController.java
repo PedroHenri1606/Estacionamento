@@ -4,15 +4,8 @@ import com.pedroestacionamento.projeto.entity.Marca;
 import com.pedroestacionamento.projeto.service.MarcaService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/api/marca")
@@ -64,8 +57,13 @@ public class MarcaController {
 
     @PostMapping
     public ResponseEntity<?> cadastrar(@Valid @RequestBody final Marca marca) {
+        try {
             service.salvar(marca);
             return ResponseEntity.ok("Registro cadastrado com Sucesso");
+
+        } catch (Exception e){
+            return ResponseEntity.badRequest().body("Error" + e.getMessage());
+        }
     }
 
     @PutMapping(value = "/editar")

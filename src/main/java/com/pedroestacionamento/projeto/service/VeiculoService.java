@@ -1,10 +1,8 @@
 package com.pedroestacionamento.projeto.service;
 
-import com.pedroestacionamento.projeto.entity.Condutor;
 import com.pedroestacionamento.projeto.entity.Movimentacao;
 import com.pedroestacionamento.projeto.entity.Veiculo;
 import com.pedroestacionamento.projeto.repository.VeiculoRepository;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -47,7 +45,12 @@ public class VeiculoService {
     }
 
     public Veiculo salvar(Veiculo veiculo) {
+        if (!repository.verificarPlaca(veiculo.getPlaca()).isEmpty()) {
+            throw new RuntimeException(" , veiculo informado já esta cadastrado!");
+
+        } else {
             return repository.save(veiculo);
+        }
     }
 
     public void desativar(Long id){

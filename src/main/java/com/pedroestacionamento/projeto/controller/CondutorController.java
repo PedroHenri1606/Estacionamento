@@ -4,14 +4,8 @@ import com.pedroestacionamento.projeto.entity.Condutor;
 import com.pedroestacionamento.projeto.service.CondutorService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/api/condutor")
@@ -66,8 +60,13 @@ public class CondutorController {
     }
 
     @PostMapping
-    public ResponseEntity<?> cadastrar(@Valid @RequestBody final Condutor condutor){
-        return ResponseEntity.ok(service.salvar(condutor));
+    public ResponseEntity<?> cadastrar(@Valid @RequestBody final Condutor condutor) {
+        try {
+            return ResponseEntity.ok(service.salvar(condutor));
+
+        } catch (Exception e){
+            return ResponseEntity.badRequest().body("Error " + e.getMessage());
+        }
     }
 
     @PutMapping(value = "/editar")

@@ -1,11 +1,8 @@
 package com.pedroestacionamento.projeto.service;
 
-import com.pedroestacionamento.projeto.entity.Condutor;
 import com.pedroestacionamento.projeto.entity.Marca;
 import com.pedroestacionamento.projeto.entity.Modelo;
-import com.pedroestacionamento.projeto.entity.Movimentacao;
 import com.pedroestacionamento.projeto.repository.MarcaRepository;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -48,7 +45,12 @@ public class MarcaService {
     }
 
     public Marca salvar(Marca marca) {
+        if (!repository.verificaNome(marca.getNome()).isEmpty()) {
+            throw new RuntimeException(", marca informada já esta cadastrada!");
+
+        } else {
             return repository.save(marca);
+        }
     }
 
     public void desativar(Long id) {

@@ -1,19 +1,12 @@
 package com.pedroestacionamento.projeto.controller;
 
-import com.pedroestacionamento.projeto.entity.Marca;
 import com.pedroestacionamento.projeto.entity.Movimentacao;
 import com.pedroestacionamento.projeto.service.MovimentacaoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.Map;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/api/movimentacao")
@@ -63,15 +56,15 @@ public class  MovimentacaoController {
         "entrada": "2023-05-01T08:00:00",
         "saida": "2023-05-01T18:00:00",
 
-        "tempo": "10:00:00",  --FEITA
-        "tempoDesconto": "01:00:00",  --FEITA
-        "tempoMulta": "00:00:00",  --FEITA
-        "valorDesconto": 40.00,  --FEITA
-        "valorMulta": 0.00,  --FEITA
+        "tempo": "10:00:00",
+        "tempoDesconto": "01:00:00",
+        "tempoMulta": "00:00:00",
+        "valorDesconto": 40.00,
+        "valorMulta": 0.00,
 
-        "valorTotal": 280.00, --FEITA
-        "valorHora": 40.00,  --FEITA
-        "valorHoraMulta": 48.00  --FEITA
+        "valorTotal": 280.00,
+        "valorHora": 40.00,
+        "valorHoraMulta": 48.00
     }
      */
 

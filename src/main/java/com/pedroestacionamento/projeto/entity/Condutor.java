@@ -3,10 +3,7 @@ package com.pedroestacionamento.projeto.entity;
 import com.pedroestacionamento.projeto.entity.abstractEntity.AbstractEntity;
 import com.pedroestacionamento.projeto.validation.constraints.CPF;
 import com.pedroestacionamento.projeto.validation.constraints.Telefone;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -54,4 +51,5 @@ public class Condutor extends AbstractEntity {
         this.setTempoPago(LocalTime.of(0,0,0));
         this.setTempoDesconto(LocalTime.of(0,0,0));
     }
+
 }
