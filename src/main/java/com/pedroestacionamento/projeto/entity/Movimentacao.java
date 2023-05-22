@@ -20,7 +20,7 @@ import java.time.LocalTime;
 @AllArgsConstructor
 @Audited
 @AuditTable(value = "tb_movimentacao_audit", schema = "audit")
-public class Movimentacao extends AbstractEntity {
+public class    Movimentacao extends AbstractEntity {
 
     @ManyToOne
     @Getter @Setter
@@ -91,7 +91,7 @@ public class Movimentacao extends AbstractEntity {
                             ("---------------------------------------------" + "\n") +
                             ("-             DADOS ARMAZENADOS             -" + "\n") +
                             ("---------------------------------------------" + "\n") +
-                            ("Período armazenado: " + this.getCondutor().getTempoPago() + "\n") +
+                            ("Período estacionado: " + (this.getCondutor().getTempoPago()/60/60) + " horas" + "\n") +
                             ("Período de desconto armazenado: " + this.getCondutor().getTempoDesconto() + "\n") +
                             ("---------------------------------------------" + "\n") +
                             ("Horas utilizadas: " + this.getTempo() + "\n") +
@@ -103,9 +103,6 @@ public class Movimentacao extends AbstractEntity {
                             ("VALOR TOTAL: " + this.getValorTotal() + "\n") +
                             ("---------------------------------------------" + "\n") +
                             ("- *PERÍODOS DE DESCONTO MENORES QUE 1 HORA* -" + "\n") +
-                            ("-   *SERÃO ARMAZENADOS ATÉ ATINGIR 1 HORA*  -" + "\n") +
-                            ("---------------------------------------------" + "\n") +
-                            ("-       *PERÍODOS MENORES QUE 1 HORA*       -" + "\n") +
                             ("-   *SERÃO ARMAZENADOS ATÉ ATINGIR 1 HORA*  -" + "\n") +
                             ("---------------------------------------------" + "\n");
     }

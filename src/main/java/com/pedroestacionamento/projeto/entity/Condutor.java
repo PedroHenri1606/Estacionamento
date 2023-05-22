@@ -40,7 +40,7 @@ public class Condutor extends AbstractEntity {
 
     @Getter @Setter
     @Column(name = "tempo_gasto")
-    private LocalTime tempoPago;
+    private Integer tempoPago;
 
     @Getter @Setter
     @Column(name = "tempo_desconto")
@@ -48,7 +48,7 @@ public class Condutor extends AbstractEntity {
 
     @PrePersist
     public void prePersist(){
-        this.setTempoPago(LocalTime.of(0,0,0));
+        this.setTempoPago(0);
         this.setTempoDesconto(LocalTime.of(0,0,0));
     }
 

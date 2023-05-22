@@ -20,7 +20,7 @@ public class CondutorController {
             "nome": "Pedro Henrique Vieira de Oliveira",
             "cpf": "111.111.111-11",
             "telefone": "45 998265476",
-            "tempoPago": "00:00:00",
+            "tempoPago": "0",
             "tempoDesconto": "00:00:00"
             }
      */

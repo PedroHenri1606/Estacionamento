@@ -236,31 +236,10 @@ public class MovimentacaoService {
             LocalTime tempoMulta = LocalTime.of(horaMulta, minutoMulta, segundoMulta);
 
             //TEMPO PAGO - CONDUTOR
-            int segundosPagosCondutor = condutor.getTempoPago().getSecond();
-            int minutosPagosCondutor = condutor.getTempoPago().getMinute();
-            int horasPagaCondutor = condutor.getTempoPago().getHour();
+            int tempoPagoCondutor = condutor.getTempoPago();
 
-            int horaTotalMaisHoraPagaCondutor = horasTotal;
-
-            for (int i = 0; i < segundosPagosCondutor; i++) {
-                segundosPagosCondutor++;
-                if (segundosPagosCondutor >= 60) {
-                    segundosPagosCondutor = 0;
-                    minutosPagosCondutor++;
-                }
-            }
-            for (int i = 0; i < minutosPagosCondutor; i++) {
-                minutosPagosCondutor++;
-                if (minutosPagosCondutor >= 60) {
-                    minutosPagosCondutor = 0;
-                    horasPagaCondutor++;
-                }
-            }
-            if (horasPagaCondutor >= 1) {
-                horaTotalMaisHoraPagaCondutor++;
-                horasPagaCondutor--;
-            }
-            condutor.setTempoPago(LocalTime.of(0, minutosTotal, segundosTotal));
+            tempoPagoCondutor += (horasTotal*60*60) + (minutosTotal*60) + segundosTotal;
+            condutor.setTempoPago(tempoPagoCondutor);
 
             //TEMPO DESCONTO - CONDUTOR
             int segundosDescontoCondutor = condutor.getTempoDesconto().getSecond();
@@ -297,9 +276,9 @@ public class MovimentacaoService {
         movimentacao.setValorDesconto(new BigDecimal(tempoDesconto.getHour()).multiply(configuracao.getValorHora()));
         movimentacao.setTempoMulta(tempoMulta);
         movimentacao.setValorMulta(new BigDecimal(tempoMulta.getHour()).multiply(new BigDecimal(60)).add(new BigDecimal(tempoMulta.getMinute()).multiply(new BigDecimal(configuracao.getValorMinutoMulta().intValue()))));
-        movimentacao.setValorTotal(new BigDecimal(configuracao.getValorHora().intValue()).multiply((new BigDecimal(horaTotalMaisHoraPagaCondutor).subtract(new BigDecimal(movimentacao.getTempoMulta().getHour())))).subtract(movimentacao.getValorDesconto()).add(movimentacao.getValorMulta()));
+        movimentacao.setValorTotal(new BigDecimal(configuracao.getValorHora().intValue()).multiply((new BigDecimal(horasTotal).subtract(new BigDecimal(movimentacao.getTempoMulta().getHour())))).subtract(movimentacao.getValorDesconto()).add(movimentacao.getValorMulta()));
 
-        this.desativar(id);
+        //this.desativar(id);
         this.salvar(movimentacao);
 
         return movimentacao.toString();
