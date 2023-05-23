@@ -89,7 +89,7 @@ public class    Movimentacao extends AbstractEntity {
                             ("Condutor: " + this.getCondutor().getNome() + "\n") +
                             ("Veiculo: " + this.getVeiculo().getModelo().getNome() + " / Placa: " + this.getVeiculo().getPlaca() + "\n") +
                             ("---------------------------------------------" + "\n") +
-                            ("-             DADOS ARMAZENADOS             -" + "\n") +
+                            ("-             DADOS DO CONDUTOR             -" + "\n") +
                             ("---------------------------------------------" + "\n") +
                             ("Período estacionado: " + (this.getCondutor().getTempoPago()/60/60) + " horas" + "\n") +
                             ("Período de desconto armazenado: " + this.getCondutor().getTempoDesconto() + "\n") +

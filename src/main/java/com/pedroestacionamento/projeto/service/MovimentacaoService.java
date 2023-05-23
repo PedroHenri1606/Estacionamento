@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -112,7 +113,7 @@ public class MovimentacaoService {
         int segundosTotal = 0;
 
         //ALGORITMO DE CONTAGEM DE TEMPO DE PERMANENCIA DENTRO DO ESTACIONAMENTO
-        while (diaEntrada != diaSaida) {
+        while (diaEntrada != diaSaida && mesEntrada != mesSaida && anoEntrada != anoSaida) {
 
             segundoEntrada++;
             segundosTotal++;
@@ -135,21 +136,32 @@ public class MovimentacaoService {
             if (horaEntrada >= 24) {
                 horaEntrada = 0;
                 diaEntrada++;
+
                 if (mesEntrada == 1 || mesEntrada == 3 || mesEntrada == 5 || mesEntrada == 7 || mesEntrada == 8 || mesEntrada == 10 || mesEntrada == 12) {
-                    if (diaEntrada > 31) {
+                    if (diaEntrada > 31) {      // --> Verifica se o mês possui 31 dias
                         diaEntrada = 1;
-                        if (mesEntrada == 12) {
+                        mesEntrada++;
+                        if (mesEntrada >= 12) {
                             anoEntrada++;
                             mesEntrada = 1;
                         }
-                    } else {
-                        if (diaEntrada > 30) {
+                    }
+                } else if (mesEntrada == 2){    // --> Verifica se o mês é fevereiro
+                    if(anoEntrada % 4 == 0) {   // --> Verifica se ano é bissexto
+                        if (diaEntrada > 29) {
                             diaEntrada = 1;
-                            if (mesEntrada == 12) {
-                                anoEntrada++;
-                                mesEntrada = 1;
-                            }
+                            mesEntrada++;
                         }
+                    } else {
+                        if (diaEntrada > 28) {
+                            diaEntrada = 1;
+                            mesEntrada++;
+                        }
+                    }
+                } else {
+                    if (diaEntrada > 30) {      // --> Verifica se o mês já atingiu a data limite
+                        diaEntrada = 1;
+                        mesEntrada++;
                     }
                 }
             }
@@ -276,9 +288,10 @@ public class MovimentacaoService {
         movimentacao.setValorDesconto(new BigDecimal(tempoDesconto.getHour()).multiply(configuracao.getValorHora()));
         movimentacao.setTempoMulta(tempoMulta);
         movimentacao.setValorMulta(new BigDecimal(tempoMulta.getHour()).multiply(new BigDecimal(60)).add(new BigDecimal(tempoMulta.getMinute()).multiply(new BigDecimal(configuracao.getValorMinutoMulta().intValue()))));
-        movimentacao.setValorTotal(new BigDecimal(configuracao.getValorHora().intValue()).multiply((new BigDecimal(horasTotal).subtract(new BigDecimal(movimentacao.getTempoMulta().getHour())))).subtract(movimentacao.getValorDesconto()).add(movimentacao.getValorMulta()));
+        movimentacao.setValorTotal(new BigDecimal(configuracao.getValorHora().intValue()).multiply((new BigDecimal(horasTotal).subtract(new BigDecimal(movimentacao.getTempoMulta().getHour())))).subtract(movimentacao.getValorDesconto()).add(movimentacao.getValorMulta()).add(new BigDecimal((minutosTotal * configuracao.getValorHora().intValue())/60).setScale(2,RoundingMode.UNNECESSARY)));
 
-        //this.desativar(id);
+        this.desativar(id);
+
         this.salvar(movimentacao);
 
         return movimentacao.toString();
