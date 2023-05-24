@@ -3,6 +3,7 @@ package com.pedroestacionamento.projeto.service;
 import com.pedroestacionamento.projeto.entity.Movimentacao;
 import com.pedroestacionamento.projeto.entity.Veiculo;
 import com.pedroestacionamento.projeto.repository.VeiculoRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,6 +45,7 @@ public class VeiculoService {
         }
     }
 
+    @Transactional
     public Veiculo salvar(Veiculo veiculo) {
         if (!repository.verificarPlaca(veiculo.getPlaca()).isEmpty()) {
             throw new RuntimeException(" , veiculo informado já esta cadastrado!");
@@ -53,6 +55,7 @@ public class VeiculoService {
         }
     }
 
+    @Transactional
     public void desativar(Long id){
         final Veiculo veiculo = this.buscarPorId(id);
 
@@ -64,6 +67,7 @@ public class VeiculoService {
         }
     }
 
+    @Transactional
     public void ativar(Long id){
         final Veiculo veiculo = this.buscarPorId(id);
 
@@ -75,6 +79,7 @@ public class VeiculoService {
         }
     }
 
+    @Transactional
     public Veiculo editar(Long id, Veiculo veiculoNovo){
         final Veiculo veiculoBanco = this.buscarPorId(id);
 
@@ -84,6 +89,7 @@ public class VeiculoService {
             return this.salvar(veiculoNovo);
     }
 
+    @Transactional
     public void deletar(Long id) {
         final Veiculo veiculoBanco = this.buscarPorId(id);
 
@@ -94,7 +100,7 @@ public class VeiculoService {
 
         } else {
             this.repository.desativar(veiculoBanco.getId());
-            throw new RuntimeException("veiculo possui movimentações ativas, veiculo desativado!");
+            throw new RuntimeException(", veiculo possui movimentações ativas, veiculo desativado!");
         }
     }
 }

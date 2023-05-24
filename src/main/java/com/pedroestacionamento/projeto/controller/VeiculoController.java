@@ -84,13 +84,13 @@ public class VeiculoController {
     }
 
     @PutMapping(value = "/editar")
-        private ResponseEntity<?> editar(@Valid @PathVariable("id") final Long id, @RequestBody final Veiculo veiculo){
+        private ResponseEntity<?> editar(@Valid @RequestParam("id") final Long id, @RequestBody final Veiculo veiculo){
         try{
             service.editar(id,veiculo);
             return ResponseEntity.ok("Registro editado com sucesso!");
 
         } catch (Exception e){
-            return ResponseEntity.badRequest().body("Error " + e.getMessage());
+            return ResponseEntity.badRequest().body("Error" + e.getMessage());
         }
     }
 
@@ -101,7 +101,7 @@ public class VeiculoController {
             return ResponseEntity.ok("Registro desativado com sucesso!");
 
         } catch (Exception e){
-            return ResponseEntity.badRequest().body("Error " + e.getMessage());
+            return ResponseEntity.badRequest().body("Error" + e.getMessage());
         }
     }
 
@@ -112,7 +112,7 @@ public class VeiculoController {
             return ResponseEntity.ok("Registro ativado com sucesso!");
 
         } catch (Exception e){
-            return ResponseEntity.badRequest().body("Error " + e.getMessage());
+            return ResponseEntity.badRequest().body("Error" + e.getMessage());
         }
     }
 
@@ -123,7 +123,7 @@ public class VeiculoController {
             return ResponseEntity.ok("Registro deletado com sucesso!");
 
         }catch (Exception e){
-            return ResponseEntity.badRequest().body("Error " + e.getMessage());
+            return ResponseEntity.badRequest().body("Error" + e.getMessage());
         }
     }
 }

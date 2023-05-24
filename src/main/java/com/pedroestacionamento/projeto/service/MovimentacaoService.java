@@ -4,6 +4,7 @@ import com.pedroestacionamento.projeto.entity.Condutor;
 import com.pedroestacionamento.projeto.entity.Movimentacao;
 import com.pedroestacionamento.projeto.entity.configuracao.Configuracao;
 import com.pedroestacionamento.projeto.repository.MovimentacaoRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -56,10 +57,12 @@ public class MovimentacaoService {
         }
     }
 
+    @Transactional
     public Movimentacao salvar(Movimentacao movimentacao) {
             return repository.save(movimentacao);
     }
 
+    @Transactional
     public void desativar(Long id) {
         final Movimentacao movimentacao = this.buscarPorId(id);
 
@@ -71,6 +74,7 @@ public class MovimentacaoService {
         }
     }
 
+    @Transactional
     public Movimentacao editar(Long id, Movimentacao movimentacaoNova) {
         final Movimentacao movimentacaoBanco = buscarPorId(id);
 
@@ -80,6 +84,7 @@ public class MovimentacaoService {
         return this.salvar(movimentacaoNova);
     }
 
+    @Transactional
     public Movimentacao fecharMovimentacao(Long id){
         final Movimentacao movimentacaoBanco = buscarPorId(id);
         movimentacaoBanco.setSaida(LocalDateTime.now());
@@ -87,6 +92,7 @@ public class MovimentacaoService {
         return this.salvar(movimentacaoBanco);
     }
 
+    @Transactional
     public String finalizarMovimentacao(Long id) {
 
         Movimentacao movimentacao = buscarPorId(id);

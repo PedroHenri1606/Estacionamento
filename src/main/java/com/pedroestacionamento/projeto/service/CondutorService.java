@@ -3,6 +3,7 @@ package com.pedroestacionamento.projeto.service;
 import com.pedroestacionamento.projeto.entity.Condutor;
 import com.pedroestacionamento.projeto.entity.Movimentacao;
 import com.pedroestacionamento.projeto.repository.CondutorRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,7 +45,7 @@ public class CondutorService {
         }
     }
 
-
+    @Transactional
     public Condutor salvar(Condutor condutor) {
         if (!repository.verificarCPF(condutor.getCpf()).isEmpty()) {
             throw new RuntimeException(", condutor informado já esta cadastrado!");
@@ -57,6 +58,7 @@ public class CondutorService {
         }
     }
 
+    @Transactional
     public void desativar(Long id){
         final Condutor condutor = this.buscarPorId(id);
 
@@ -68,6 +70,7 @@ public class CondutorService {
         }
     }
 
+    @Transactional
     public void ativar(Long id){
         final Condutor condutor = this.buscarPorId(id);
 
@@ -79,6 +82,7 @@ public class CondutorService {
         }
     }
 
+    @Transactional
     public Condutor editar(Long id, Condutor condutorNovo){
         final Condutor condutorBanco = this.buscarPorId(id);
 
@@ -88,6 +92,7 @@ public class CondutorService {
             return repository.save(condutorNovo);
     }
 
+    @Transactional
     public void deletar(Long id){
         final Condutor condutorBanco = this.buscarPorId(id);
 
@@ -98,7 +103,7 @@ public class CondutorService {
 
         } else {
             this.repository.desativar(condutorBanco.getId());
-            throw new RuntimeException("condutor possui movimentações ativas, condutor desativado!");
+            throw new RuntimeException(", condutor possui movimentações ativas, condutor desativado!");
         }
     }
 }

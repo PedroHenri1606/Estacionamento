@@ -3,6 +3,7 @@ package com.pedroestacionamento.projeto.service;
 import com.pedroestacionamento.projeto.entity.Marca;
 import com.pedroestacionamento.projeto.entity.Modelo;
 import com.pedroestacionamento.projeto.repository.MarcaRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,6 +45,7 @@ public class MarcaService {
         }
     }
 
+    @Transactional
     public Marca salvar(Marca marca) {
         if (!repository.verificaNome(marca.getNome()).isEmpty()) {
             throw new RuntimeException(", marca informada já esta cadastrada!");
@@ -53,6 +55,7 @@ public class MarcaService {
         }
     }
 
+    @Transactional
     public void desativar(Long id) {
         final Marca marca = this.buscarPorId(id);
 
@@ -64,6 +67,7 @@ public class MarcaService {
         }
     }
 
+    @Transactional
     public void ativar(Long id){
         final Marca marca = this.buscarPorId(id);
 
@@ -75,6 +79,7 @@ public class MarcaService {
         }
     }
 
+    @Transactional
     public Marca editar(Long id, Marca marcaNova){
         final Marca marcaBanco = this.buscarPorId(id);
 
@@ -84,6 +89,7 @@ public class MarcaService {
             return this.salvar(marcaNova);
     }
 
+    @Transactional
     public void deletar(Long id) {
         final Marca marcaBanco = this.buscarPorId(id);
 
@@ -94,7 +100,7 @@ public class MarcaService {
 
         } else {
             this.repository.desativar(marcaBanco.getId());
-            throw new RuntimeException("marca possui modelos ativos, marca desativada!");
+            throw new RuntimeException(", marca possui modelos ativos, marca desativada!");
         }
     }
 }

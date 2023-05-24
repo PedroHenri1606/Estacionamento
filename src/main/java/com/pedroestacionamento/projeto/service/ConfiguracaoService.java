@@ -2,6 +2,7 @@ package com.pedroestacionamento.projeto.service;
 
 import com.pedroestacionamento.projeto.entity.configuracao.Configuracao;
 import com.pedroestacionamento.projeto.repository.ConfiguracaoRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -43,10 +44,12 @@ public class ConfiguracaoService {
         }
     }
 
+    @Transactional
     public Configuracao salvar(Configuracao configuracao) {
             return repository.save(configuracao);
     }
 
+    @Transactional
     public Configuracao editar(Long id, Configuracao configuracaoNova) {
         final Configuracao configuracaoBanco = this.buscarPorId(id);
 

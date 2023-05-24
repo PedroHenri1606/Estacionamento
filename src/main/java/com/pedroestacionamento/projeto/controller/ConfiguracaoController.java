@@ -39,7 +39,7 @@ public class ConfiguracaoController {
             return ResponseEntity.ok(service.listarConfiguracoes());
 
         } catch (Exception e){
-            return ResponseEntity.badRequest().body("Error " + e.getMessage());
+            return ResponseEntity.badRequest().body("Error" + e.getMessage());
         }
     }
 
@@ -55,7 +55,7 @@ public class ConfiguracaoController {
             return ResponseEntity.ok("Registro editado com sucesso!");
 
         } catch (Exception e){
-            return ResponseEntity.badRequest().body("Error " + e.getMessage());
+            return ResponseEntity.badRequest().body("Error" + e.getMessage());
         }
     }
 }

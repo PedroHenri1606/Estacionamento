@@ -3,6 +3,7 @@ package com.pedroestacionamento.projeto.service;
 import com.pedroestacionamento.projeto.entity.Modelo;
 import com.pedroestacionamento.projeto.entity.Veiculo;
 import com.pedroestacionamento.projeto.repository.ModeloRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,6 +45,7 @@ public class ModeloService {
         }
     }
 
+    @Transactional
     public Modelo salvar(Modelo modelo) {
         if (!repository.verificaNome(modelo.getNome()).isEmpty()) {
             throw new RuntimeException(", modelo informado já esta cadastrado!");
@@ -53,6 +55,7 @@ public class ModeloService {
         }
     }
 
+    @Transactional
     public void desativar(Long id){
         final Modelo modelo = buscarPorId(id);
 
@@ -64,6 +67,7 @@ public class ModeloService {
         }
     }
 
+    @Transactional
     public void ativar(Long id) {
         final Modelo modelo = buscarPorId(id);
 
@@ -75,6 +79,7 @@ public class ModeloService {
         }
     }
 
+    @Transactional
     public Modelo editar(Long id, Modelo modeloNovo){
         final Modelo modeloBanco = this.buscarPorId(id);
 
@@ -84,6 +89,7 @@ public class ModeloService {
             return this.salvar(modeloNovo);
     }
 
+    @Transactional
     public void deletar(Long id){
         final Modelo modeloBanco = this.buscarPorId(id);
 
@@ -94,7 +100,7 @@ public class ModeloService {
 
         } else {
             this.repository.desativar(modeloBanco.getId());
-            throw new RuntimeException("modelo possui veiculos cadastrados ativos, modelo desativado!");
+            throw new RuntimeException(", modelo possui veiculos cadastrados ativos, modelo desativado!");
         }
 
     }

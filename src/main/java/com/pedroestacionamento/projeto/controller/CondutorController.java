@@ -35,7 +35,7 @@ public class CondutorController {
             return ResponseEntity.ok(condutor);
 
         } catch (Exception e){
-            return ResponseEntity.badRequest().body("Error " + e.getMessage());
+            return ResponseEntity.badRequest().body("Error" + e.getMessage());
         }
     }
 
@@ -45,7 +45,7 @@ public class CondutorController {
         return ResponseEntity.ok(service.listarCondutores());
 
       } catch (Exception e){
-          return ResponseEntity.badRequest().body("Error " + e.getMessage());
+          return ResponseEntity.badRequest().body("Error" + e.getMessage());
       }
     }
 
@@ -55,17 +55,18 @@ public class CondutorController {
             return ResponseEntity.ok(service.listarPorAtivos());
 
         } catch (Exception e){
-            return ResponseEntity.badRequest().body("Error " + e.getMessage());
+            return ResponseEntity.badRequest().body("Error" + e.getMessage());
         }
     }
 
     @PostMapping
     public ResponseEntity<?> cadastrar(@Valid @RequestBody final Condutor condutor) {
         try {
-            return ResponseEntity.ok(service.salvar(condutor));
+            service.salvar(condutor);
+            return ResponseEntity.ok("Registro cadastrado com sucesso!");
 
         } catch (Exception e){
-            return ResponseEntity.badRequest().body("Error " + e.getMessage());
+            return ResponseEntity.badRequest().body("Error" + e.getMessage());
         }
     }
 
@@ -76,7 +77,7 @@ public class CondutorController {
             return ResponseEntity.ok("Registro editado com sucesso!");
 
         } catch (Exception e){
-            return ResponseEntity.badRequest().body("Error " + e.getMessage());
+            return ResponseEntity.badRequest().body("Error" + e.getMessage());
         }
     }
 
@@ -87,7 +88,7 @@ public class CondutorController {
             return ResponseEntity.ok("Registro desativado com sucesso!");
 
         } catch (Exception e){
-            return ResponseEntity.badRequest().body("Error " + e.getMessage());
+            return ResponseEntity.badRequest().body("Error" + e.getMessage());
         }
     }
 
@@ -98,7 +99,7 @@ public class CondutorController {
             return ResponseEntity.ok("Registro ativado com sucesso!");
 
         } catch (Exception e){
-            return ResponseEntity.badRequest().body("Error " + e.getMessage());
+            return ResponseEntity.badRequest().body("Error" + e.getMessage());
         }
     }
 
@@ -110,7 +111,7 @@ public class CondutorController {
             return ResponseEntity.ok("Registro deletado com sucesso!");
 
         } catch (Exception e){
-            return ResponseEntity.badRequest().body("Error " + e.getMessage());
+            return ResponseEntity.badRequest().body("Error" + e.getMessage());
         }
     }
 }

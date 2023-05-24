@@ -18,53 +18,10 @@ public class  MovimentacaoController {
         "cadastro": "2023-05-01T22:44:12.43815",
         "edicao": null,
         "ativo": true,
-        "veiculo": {
-            "id": 1,
-            "cadastro": "2023-05-01T22:40:13.418645",
-            "edicao": null,
-            "ativo": true,
-            "placa": "RHT-5F18",
-            "modelo": {
-                "id": 1,
-                "cadastro": "2023-05-01T22:38:24.311867",
-                "edicao": null,
-                "ativo": true,
-                "nome": "XRE 300",
-                "marca": {
-                    "id": 1,
-                    "cadastro": "2023-05-01T22:35:11.143788",
-                    "edicao": null,
-                    "ativo": true,
-                    "nome": "Honda"
-                }
-            },
-            "cor": "VERMELHA",
-            "tipoVeiculo": "Moto",
-            "ano": 2023
-        },
-        "condutor": {
-            "id": 1,
-            "cadastro": "2023-05-01T22:33:44.206545",
-            "edicao": null,
-            "ativo": true,
-            "nome": "Pedro Henrique Vieira de Oliveira",
-            "cpf": "111.111.111-11",
-            "telefone": "45 998265476",
-            "tempoPago": "00:00:00",
-            "tempoDesconto": "00:00:00"
-        },
+        "veiculo": { "id": 1},
+        "condutor":{ "id": 1},
         "entrada": "2023-05-01T08:00:00",
-        "saida": "2023-05-01T18:00:00",
-
-        "tempo": "10:00:00",
-        "tempoDesconto": "01:00:00",
-        "tempoMulta": "00:00:00",
-        "valorDesconto": 40.00,
-        "valorMulta": 0.00,
-
-        "valorTotal": 280.00,
-        "valorHora": 40.00,
-        "valorHoraMulta": 48.00
+        "saida": "2023-05-01T18:00:00"
     }
      */
 
@@ -78,7 +35,7 @@ public class  MovimentacaoController {
             return ResponseEntity.ok(movimentacao);
 
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Error " + e.getMessage());
+            return ResponseEntity.badRequest().body("Error" + e.getMessage());
         }
     }
 
@@ -88,7 +45,7 @@ public class  MovimentacaoController {
             return ResponseEntity.ok(service.listarMovimentacao());
 
         } catch (Exception e){
-            return ResponseEntity.badRequest().body("Error " + e.getMessage());
+            return ResponseEntity.badRequest().body("Error" + e.getMessage());
         }
     }
 
@@ -105,7 +62,7 @@ public class  MovimentacaoController {
             return ResponseEntity.ok("Registro editado com sucesso!");
 
         } catch (Exception e){
-            return ResponseEntity.badRequest().body("Error " + e.getMessage());
+            return ResponseEntity.badRequest().body("Error" + e.getMessage());
         }
     }
 
@@ -116,7 +73,7 @@ public class  MovimentacaoController {
             return ResponseEntity.ok("Movimentação fechada com sucesso, aguardando finalização!");
         }
         catch (Exception e){
-            return ResponseEntity.badRequest().body("Error " + e.getMessage());
+            return ResponseEntity.badRequest().body("Error" + e.getMessage());
         }
     }
 
@@ -126,7 +83,7 @@ public class  MovimentacaoController {
             return ResponseEntity.ok(service.finalizarMovimentacao(id));
         }
         catch (Exception e){
-            return ResponseEntity.badRequest().body("Error " + e.getMessage());
+            return ResponseEntity.badRequest().body("Error" + e.getMessage());
         }
     }
 }
